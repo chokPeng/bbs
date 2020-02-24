@@ -1,26 +1,26 @@
 <template>
 <div>
-<navigationHeader></navigationHeader>
-<div class="home">
-    <div class="main">
-        <div class="post-list">
-                <div v-for="(post,index) in postList" :key="index" >
-                    <router-link :to="'/post/'+post.id">
-                            <div class="menu-item">
-                                <span>{{post.title}}</span>
-                                <div class="metal-infomation">
-                                    {{post.poster.username}}
-                                    {{post.postingTime|changeTime}}
+    <navigationHeader></navigationHeader>
+    <div class="home">
+        <div class="main">
+            <div class="post-list">
+                    <div v-for="(post,index) in postList" :key="index" >
+                        <router-link :to="'/post/'+post.id">
+                                <div class="menu-item">
+                                    <span>{{post.title}}</span>
+                                    <div class="metal-infomation">
+                                        {{post.poster.username}}
+                                        {{post.postingTime|changeTime}}
+                                    </div>
                                 </div>
-                            </div>
-                    </router-link>
-                </div>
-        </div>
-        <div class="side-bar">
-            side-bar
+                        </router-link>
+                    </div>
+            </div>
+            <div class="side-bar">
+                side-bar
+            </div>
         </div>
     </div>
-</div>
 </div>
 </template>
 <script>
@@ -38,6 +38,7 @@ export default {
     },
     mounted(){
         this.getAllPosts()
+        this.getUserFollow()
     },
     methods: {
         getAllPosts(){
@@ -51,10 +52,25 @@ export default {
                 }
             })
         },
+        getUserFollow(){
+            this.$api.getFollowees(this.$store.state.userId).then((res)=>{
+                //  this.$store.commit('storeNameAndAvatar',{
+                //     userId:res.data.userId,
+                //     avatar:res.data.avatar
+                // })
+                this.$store.commit('storeFollowingList',{
+                    followingList:res.data.data
+                })
+                window.console.log(res.data.data)
+            })
+        }
     }
 }
 </script>
 <style>
+    .container{
+        height: 100%;
+    }
     .home{
         display: flex;
         flex-direction: column;
@@ -65,6 +81,7 @@ export default {
         display: flex;
         flex-direction: row;
         margin: auto;
+        background-color: #fff;
     }
     .post-list{
         width: 700px;

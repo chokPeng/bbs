@@ -1,7 +1,7 @@
 <template>
-  <div id="app" style="margin:0px">
+<div style="height:100%">
     <router-view></router-view>
-  </div>
+</div>
 </template>
 <script>
 export default {
@@ -9,12 +9,34 @@ export default {
 }
 </script>
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  background-color: f4f5f5
-}        
+html{
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,.05);
+}
+body{
+  margin:0px;
+  height: 100%;
+  /* text-align: center; */
+}
+a {
+    text-decoration: none;
+    color:#909090
+}
+/*正常的未被访问过的链接*/
+a:link {
+    text-decoration: none;
+}
+/*已经访问过的链接*/
+a:visited {
+    text-decoration: none;
+}
+/*鼠标划过(停留)的链接*/
+a:hover {
+    text-decoration: none;
+}
+/* 正在点击的链接*/
+a:active {
+    text-decoration: none;
+}
 </style>

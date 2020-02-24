@@ -6,8 +6,8 @@ axios.defaults.baseURL = 'http://localhost:8090';
 axios.interceptors.request.use(function (config) {
     let url = config.url;
     if (url!='/login'&&url!='/post') {
-        window.console.log(url)
-        window.console.log(store.state.userId)
+        //window.console.log(url)
+        //window.console.log(store.state.userId)
         if(store.state.userId==''){
             window.console.log("未登录")
             router.push("/login")
@@ -80,28 +80,39 @@ axios.interceptors.response.use(function(response){
     }
     return Promise.reject(err)
 })
+let config = {
+    headers: {
+        'Content-Type': 'multipart/form-data;'
+    } 
+}
 export default {
-    getConfessionWall:()=>axios.get(`/confessionWall`),
+    getConfessionWall:(data)=>axios.get(`/confessionWall`,{params:{
+        topic:data}
+    }),
+    getPostTopic:()=>axios.get(`/post/topic`),
+    getPostId:(data)=>axios.post(`/post/drafts`,qs.stringify(data)),
     getPost: (data) => axios.get(`/post/${data}`),
     getAllPosts:()=>axios.get(`/post`),
     getUserInfo:(data)=>axios.get(`/user/${data}`),
     addLike:(data)=>axios.post(`confessionWall/like`,qs.stringify(data)),
-    saveFollower:(data)=>axios.post(`/relationship/follower`,qs.stringify(data)),
+    follow:(data)=>axios.post(`/relationship/follow`,qs.stringify(data)),
+    unfollow:(data)=>axios.post(`/relationship/unfollow`,qs.stringify(data)),
     getFollowers:(data)=>axios.get(`/relationship/followers/${data}`),
+    getFollowees:(data)=>axios.get(`/relationship/followees/${data}`),
+    savePostComment:(data)=>axios.post(`/postComment`,qs.stringify(data)),
+    saveConfessionWall:(data)=>axios.post(`/confessionWall`,data,config),
+    savePostCommentReply:(data)=>axios.post(`/commentReply/post`,data),
+    saveConfessionWallCommentReply:(data)=>axios.post(`/commentReply/confessionWall`,data),
     logout:()=>axios.get(`/logout`).then((res)=>{
         window.console.log(res)
         if(res.code==200){
             router.push("/login")
         }
     }),
-   // postConfessionWall:(data) =>axios.post()
-    postFormData:(url, params)=>
-        axios({
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'// ;boundary=----WebKitFormBoundaryQ6d2Qh69dv9wad2u
-            },
-            url,
-            method: 'post',
-            data: params
-        }),
+    signin:(data)=>axios.post(`login`,qs.stringify(data)),
+    savePost:(data)=>axios.post(`/post`,qs.stringify(data)),
+    getActive:(data)=>axios.get(`/active/${data}`),
+    getTopic:(data)=>axios.get(`/topic/${data}`),
+    saveUserInfo:(data)=>axios.post(`/user`,data,config),
+    signup:(data)=>axios.put(`/user`,data)
 }

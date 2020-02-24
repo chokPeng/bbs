@@ -1,8 +1,11 @@
 <template>
 <div class="commentReply">
-    <commenterInfoBox :commenter="commentReply.replier"></commenterInfoBox>
-    <span>回复</span><a href="https://www.gduf.edu.cn/">{{commentReply.commenter.username}}</a>
+    <!-- <div v-if="JSON.stringify(commentReply.replier)!='{}'"> -->
+        <commenterInfoBox :commenter="commentReply.replier"></commenterInfoBox>
+    <!-- </div> -->
+    <span>回复</span><router-link :to="`/user/`+commentReply.commenter.userId">{{commentReply.commenter.username}}</router-link>
     <span class="content">:{{commentReply.content}}</span>
+    
 </div>
 </template>
 <script>
@@ -22,5 +25,8 @@ export default {
         background-color: #fafbfc;
         padding-top: 16px;
         padding-left: 30px;
+    }
+    .reply-reply{
+        background-color: greenyellow;
     }
 </style>

@@ -9,11 +9,20 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import store from './vuex/store'
-import { format } from 'timeago.js';
-//定义全局的过滤器 "changeTime":改变时间为几周前
-Vue.filter('changeTime', function(dateStr) {
-    return format(dateStr, 'zh_CN');
-})
+import filters from './filter/filter.js'
+// import hljs from 'highlight.js'
+import {ImageDrop} from 'quill-image-drop-module'
+import Quill from 'quill'
+import ImageResize from 'quill-image-resize-module'
+import 'swiper/dist/css/swiper.css'
+//（如果使用的是2.6.0以上的版本需要自己手动去加载css）
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+Vue.use(VueAwesomeSwiper)
+Quill.register('modules/imageDrop', ImageDrop)
+Quill.register('modules/imageResize', ImageResize)
+for (let key in filters) {
+    Vue.filter(key, filters[key]);
+}
 Vue.use(VueQuillEditor)
 Vue.use(elementUI)
 Vue.config.productionTip = false

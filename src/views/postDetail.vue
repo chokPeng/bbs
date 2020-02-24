@@ -9,10 +9,15 @@
             <div><img :src="commentImg" style="width:50px;height:50px;"><span>{{commentNum}}</span></div>
         </div>
         <div class="main-area">
-            <authorInfoBox :author="author"></authorInfoBox> 
+            <div v-if="JSON.stringify(user)!='{}'">
+                <userInfoBox :user="user"></userInfoBox>
+            </div>
+            <div class="post-title">{{title}}</div>
             <div v-html="content"></div>
+            <div>{{postingTime|changeTime}}</div>
+            <div class="comment-title">评论</div>
             <div class="comment-input-box">
-                <img :src="author.avatar" style="width:50px;height:50px;border-radius:50%;">
+                <img :src="this.$store.state.avatar|addImagePrefix" style="width:50px;height:50px;border-radius:50%;">
                 <input class="input" v-model="commentInput" placeholder="输入评论......">
                 <button @click="submitComment" class="button">评论</button>
             </div>
@@ -26,13 +31,13 @@
 </template>
 <script>
 import NavigationHeader from '../components/navigationHeader'
-import AuthorInfoBox from '../components/userInfo/authorInfoBox'
+import UserInfoBox from '../components/userInfo/userInfoBox'
 import Comment from '../components/comment'
 export default {
     name:'post',
     data(){
         return{
-            author:{},
+            user:{},
             content:'',
             id:'',
             goodImg: require('../assets/good.png'),
@@ -43,25 +48,52 @@ export default {
             commentList:[],
             input:'',
             commentInput:'',
+            postingTime:'',
+            commentReplyInput:'',
+            title:''
         }
     },
     mounted(){
-        //是this.$route.query
+        window.console.log(JSON.stringify(this.user))
         this.id=this.$route.params.id
         this.getPost(this.id)
+        
     },
     components:{
-        'authorInfoBox':AuthorInfoBox,
+        'userInfoBox':UserInfoBox,
         'comment':Comment,
-        'navigationHeader':NavigationHeader
+        'navigationHeader':NavigationHeader,
     },
     methods:{
+         showReply(key){
+            if(this.commentList[key].isReply){
+                this.$set(this.commentList[key],'isReply',false)
+                window.console.log(this.commentList[key].isReply)
+            }
+           else{
+                this.$set(this.commentList[key],'isReply',true)
+            }
+            
+        },
+        submitPostCommentReply(commentId,commenterId){
+            this.$api.savePostCommentReply({
+                commentId:commentId,
+                commenterId:commenterId,
+                replierId:this.$store.state.userId,
+                content:this.commentReplyInput,   
+            })
+        },
+        /*以上为comment.vue 的方法*/
         getPost(id){
                 this.$api.getPost(id).then((res)=>{
                     window.console.log(res.data.data)
-                    this.author=res.data.data.poster
+                    this.title=res.data.data.title
+                    this.user=res.data.data.poster
                     this.content=res.data.data.content
+                    this.postingTime=res.data.data.postingTime
                     this.commentList=res.data.data.comment
+                    window.console.log("neibu")
+                    window.console.log(JSON.stringify(this.user)=={})
             })
         },
         good(){
@@ -75,11 +107,18 @@ export default {
             this.isGood=!this.isGood;
         },
         submitComment(){
-            let param = new URLSearchParams()
-            param.append('postId',this.id)
-            param.append('commenterId',123456)
-            param.append('content',this.commentInput)
-            this.$api.postFormData('postComment',param)
+            this.$api.savePostComment({
+                postId:this.id,
+                commenterId:this.$store.state.userId,
+                content:this.commentInput
+            }).then(()=>{
+                this.$message({
+                showClose: true,
+                message: '评论成功',
+                type: 'success'
+              });
+              this.$router.go(0)
+            })
         }
     }
 }
@@ -97,9 +136,17 @@ export default {
         width: 700px;
         padding: 20px;
     }
+    .post-title{
+        color:  black;
+        font-size: 20px;
+        text-align: center;
+        padding: 10px;
+    }
     .comment-input-box{
         display: flex;
         flex-direction: row;
+        padding: 40px;
+        align-items: center;
     }
     .article-suspended-panel{
         display: flex;
@@ -121,6 +168,14 @@ export default {
     }
     .button{
         width: 50px;
-        background-color: greenyellow
+        background-color: greenyellow;
+        margin-left: 20px;
+    }
+    /*以下为comment.vue 的 css*/
+    .comment-title{
+        color: #8a9aa9;
+        font-size: 16px;
+        text-align: center;
+        padding: 10px;
     }
 </style>

@@ -1,8 +1,10 @@
 <template>
     <div class="commenterInfoBox">
-        <router-link :to="'/user/'+commenter.userId">
-            <img :src="commenter.avatar" style="width:35px; height:35px; border-radius:50%;margin-right: 10px;">
-        </router-link>
+        <div v-if="JSON.stringify(commenter)!='{}'">
+            <router-link :to="'/user/'+commenter.userId">
+                <img :src="commenter.avatar|addImagePrefix" style="width:35px; height:35px; border-radius:50%;margin-right: 10px;">
+            </router-link>
+        </div>
         <div class="information">
             <router-link :to="'/user/'+commenter.userId">
                 <span>{{commenter.username}}</span>
@@ -17,7 +19,7 @@
 export default {
     name:'commenterInfoBox',
     props:{
-        commenter:Object
+        commenter:{}
     }
 }
 </script>

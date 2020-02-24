@@ -1,32 +1,32 @@
 <template>
-    <div>
-        <el-header>
+    <div class="navigationHeader">
+        <el-header style="height:29px">
             <el-row :gutter="20" style="border-bottom:1px solid #f1f1f1;">
             <el-col :span="5" :offset="3">
-                <div class="grid-content bg-purple"><router-link :to="'/home/'"><img src="../assets/logo.png" style="width:98px;height:23px"></router-link></div>
+                <div class="grid-content bg-purple"><router-link :to="'/home'"><img :src="logo" style="width:98px;height:23px"></router-link></div>
             </el-col>
             <el-col :span="3">
-                <div class="grid-content bg-purple"><router-link :to="'/home/'">首页</router-link></div>
+                <div class="grid-content bg-purple"><router-link :to="'/home'">首页</router-link></div>
             </el-col>
             <el-col :span="3">
-                <div class="grid-content bg-purple"><router-link :to="'/confessionWall/'">表白墙</router-link></div>
+                <div class="grid-content bg-purple"><router-link :to="'/confessionWall'">表白墙</router-link></div>
             </el-col>
             <el-col :span="3">
-                <div class="grid-content bg-purple"><img src="../assets/notificationFilled.png" style="width:18px;height:20px"></div>
+                <div class="grid-content bg-purple"><img :src="notificationFilledImage" style="width:18px;height:20px"></div>
             </el-col>
             <el-col :span="3">
-                <div class="grid-content bg-purple"><img src="../assets/message.png" style="width:18px;height:20px"></div>
+                <div class="grid-content bg-purple"><img :src="messageImage" style="width:18px;height:20px"></div>
             </el-col>
             <el-col :span="3">
                 <div class="grid-content bg-purple">
-                    <img :src=avatar v-if="avatar" @click="showUserDropDownList()" style="width:18px;height:20px;border-radius:50%">
+                    <img :src="avatar|addImagePrefix" v-if="avatar" @click="showUserDropDownList()" style="width:18px;height:20px;border-radius:50%">
                     <div v-else>
-                        <router-link :to="'/login/'"><span>登录 注册</span></router-link>
+                        <router-link :to="'/login'"><span>登录 注册</span></router-link>
                     </div>
                 </div>
                 <ul v-if="isShowUserDropDownList" class="user-drop-down-list">
-                    <router-link :to="'/user/'+userId"><li>我的主页</li></router-link>
-                    <router-link :to="'/richText/'"><li>发帖子</li></router-link>
+                    <router-link :to="'/user/'+userId+'/active'"><li>我的主页</li></router-link>
+                    <router-link :to="'/postEditor'"><li>发帖子</li></router-link>
                     <router-link :to="'/login'"><li>登录</li></router-link>
                     <li @click="logout">登出</li>
                 </ul>
@@ -42,7 +42,10 @@ export default {
         return{
             avatar:this.$store.state.avatar,
             isShowUserDropDownList:false,
-            userId:this.$store.state.userId
+            userId:this.$store.state.userId,
+            messageImage:require('../assets/message.png'),
+            notificationFilledImage:require('../assets/notificationFilled.png'),
+            logo:require('../assets/logo.png')
         }
     },
     methods:{
@@ -57,7 +60,7 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
  a{
     text-decoration: none;
     color:#909090;
@@ -68,6 +71,9 @@ export default {
  }
  ul{
      list-style: none;
+ }
+ .navigationHeader{
+     background-color: #fff;
  }
  .user-drop-down-list{
      width: 80px;
