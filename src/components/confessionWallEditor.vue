@@ -21,8 +21,8 @@
                     <img :src="topicIcon" style="width:20px;height:20px">
                     <span>话题</span>
             </div>
-            <div class="button">
-                <button @click="saveConfessionWall">发表</button>
+            <div >
+                <button @click="saveConfessionWall" class="button">发表</button>
             </div>
             <input type="file" accept=".png,.jpg" @change="changeMultipleFiles"  ref="file" multiple="multiple" style="display:none">
         </div>
@@ -66,7 +66,8 @@ export default {
           window.console.log(this.isShowTopicSelect)
       },
        selectPicture(){
-        this.$refs.file.click();
+         //this.$refs.file.click();
+         window.console.log(this.$refs)
        },
        changeMultipleFiles(e) {
            window.console.log(e)
@@ -128,9 +129,7 @@ export default {
     ul{
         list-style:none
     }
-    .topic-select{
-        
-    }
+
     .editor{
         padding: 0rem 2rem 0;
         margin-bottom: 8px;
@@ -145,6 +144,12 @@ export default {
         flex-direction: row;
         padding: 5px;
         color: #027fff;
+        position: relative;
+    }
+    .button{
+        position: absolute;
+        right: 20px;
+        background-color: #027fff;
     }
     .editor-item{
         display: flex;

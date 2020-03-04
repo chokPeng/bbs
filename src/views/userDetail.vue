@@ -50,7 +50,7 @@ export default {
     }
 }
 </script>
-<style >
+<style scoped>
     .user-main{
         display: flex;
         flex-direction: row;

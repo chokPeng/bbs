@@ -6,7 +6,7 @@
             <div @click="good">
                 <img :src="goodImg" style="width:50px;height:50px;"><span>{{goodNum}}</span>
             </div>
-            <div><img :src="commentImg" style="width:50px;height:50px;"><span>{{commentNum}}</span></div>
+            <div><img :src="commentImg" style="width:50px;height:50px;"><span>{{commentList.length}}</span></div>
         </div>
         <div class="main-area">
             <div v-if="JSON.stringify(user)!='{}'">
@@ -17,14 +17,14 @@
             <div>{{postingTime|changeTime}}</div>
             <div class="comment-title">评论</div>
             <div class="comment-input-box">
-                <img :src="this.$store.state.avatar|addImagePrefix" style="width:50px;height:50px;border-radius:50%;">
+                <img :src="$store.state.avatar|addImagePrefix" style="width:50px;height:50px;border-radius:50%;">
                 <input class="input" v-model="commentInput" placeholder="输入评论......">
                 <button @click="submitComment" class="button">评论</button>
             </div>
             <comment :commentList="commentList"></comment>
         </div>
-        <div class="side-bar">
-            side-bar
+        <div class="side-bar" v-if="user.userId==$store.state.userId">
+           <button @click="deletePost" class="delete-button">删除帖子</button>
         </div>
     </div>
 </div>
@@ -42,7 +42,7 @@ export default {
             id:'',
             goodImg: require('../assets/good.png'),
             commentImg: require('../assets/comment.png'),
-            goodNum:10,
+            goodNum:Int16Array,
             isGood:false,
             commentNum:1,
             commentList:[],
@@ -50,14 +50,15 @@ export default {
             commentInput:'',
             postingTime:'',
             commentReplyInput:'',
-            title:''
+            title:'',
         }
     },
     mounted(){
         window.console.log(JSON.stringify(this.user))
         this.id=this.$route.params.id
         this.getPost(this.id)
-        
+        this.getPostLike(this.id)
+        this.isUserLike()
     },
     components:{
         'userInfoBox':UserInfoBox,
@@ -65,6 +66,42 @@ export default {
         'navigationHeader':NavigationHeader,
     },
     methods:{
+        isUserLike(){
+            this.$api.isUserLike({
+                userId:this.$store.state.userId,
+                id:this.id
+            }).then((res)=>{
+                window.console.log(res.data.data)
+                //返回结果为1,证明用户已经点过赞了
+                if(res.data.data==1){
+                    this.isGood=true
+                    this.goodImg=require('../assets/goodFilled.png')
+                }
+            })
+        },
+        deletePost(){
+            this.$api.deletePost({
+                postId:this.id
+            }).then((res)=>{
+                window.console.log(res.data.data)
+                if(res.data.code==1){
+                    this.$message({
+                        showClose: true,
+                        message: '删除成功',
+                        type: 'success'
+                    });
+                    this.$router.push(`/home`)
+                }
+            })
+        },
+        getPostLike(postId){
+            this.$api.getPostLike({
+                postId:postId
+            }).then((res)=>{
+                window.console.log(res.data.data)
+                this.goodNum=res.data.data
+            })
+        },
          showReply(key){
             if(this.commentList[key].isReply){
                 this.$set(this.commentList[key],'isReply',false)
@@ -99,9 +136,21 @@ export default {
         good(){
             if(this.isGood==false){
                 this.goodImg=require('../assets/goodFilled.png')
+                this.$api.savePostLike({
+                    userId:this.$store.state.userId,
+                    postId:this.id
+                }).then((res)=>{
+                    window.console.log(res.data.data)
+                })
                 this.goodNum++;
             }else{
                 this.goodImg=require('../assets/good.png')
+                this.$api.deletePostLike({
+                    postId:this.id,
+                    userId:this.$store.state.userId
+                }).then((res)=>{
+                    window.console.log(res.data.data)
+                })
                 this.goodNum--;
             }
             this.isGood=!this.isGood;
@@ -165,6 +214,7 @@ export default {
         border-radius: 3px;
         width: 500px;
         border: 1px solid #f1f1f1;
+        height: 40px;
     }
     .button{
         width: 50px;
@@ -178,4 +228,13 @@ export default {
         text-align: center;
         padding: 10px;
     }
+    .delete-button{
+    margin: 0 0 0 auto;
+    padding: 0;
+    width: 80px;
+    height: 26px;
+    font-size: 13px;
+    border-color: #6cbd45;
+    color: #6cbd45;
+}
 </style>

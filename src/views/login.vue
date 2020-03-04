@@ -39,6 +39,7 @@ export default{
     .action-list{
         display: flex;
         flex-direction: row;
+        background-color: #b8e5f8
     }
     .item{
         /* width: 600px;

@@ -29,17 +29,17 @@
             </el-menu-item>
             </el-menu>
         </div>
-        <div class="confessionWall-body">
+        <div class="confessionWall-body" v-if="confessionWallList">
             <confessionWallEditor></confessionWallEditor>
             <div class="confessionWall-pin" v-for="(item,key) in confessionWallList" :key="key">
-                <userInfoBox :user="item.poster"></userInfoBox>
+                    <userInfoBox :user="item.poster"></userInfoBox>
                     <div class="content">
                         <span>{{item.content}}</span>
                         <div  v-if="item.confessionWallImage.length!=0">
                             <swiper :imageList="item.confessionWallImage"></swiper>
                         </div>
                         <div class="ss" v-if="item.topic">
-                            <span class="topic">{{item.topic}}</span>
+                            <span class="topic" v-if="item.topic">{{item.topic}}</span>
                         </div>
                     </div>
                     <div class="action">
@@ -51,11 +51,16 @@
                         <div class="comment-action" >
                             <img :src="commentFilledImg" @click="showComment(key)" v-if="item.isShowComment" style="width:25px;height:25px;cursor:pointer;"> 
                             <img :src="commentImg" @click="showComment(key)" v-else style="width:25px;height:25px;cursor:pointer;">
-                            <span>{{item.comments.length}}</span>
+                            <span class="comment-length">{{item.comments.length}}</span>
                         </div>
                     </div>
                 <div  class="comment" v-if="item.isShowComment">
-                    <comment :commentList="item.comments">ddd</comment>
+                    <div class="comment-input-box">
+                        <img :src="$store.state.avatar|addImagePrefix" style="width:40px;height:40px;border-radius:50%;">
+                        <input class="input" v-model="commentInput" placeholder="输入评论......">
+                        <button @click="submitComment(item.id)" class="button">评论</button>
+                    </div>
+                    <comment :commentList="item.comments"></comment>
                 </div>
                 
             </div>
@@ -78,8 +83,8 @@ export default {
             commentImg:require('../assets/comment.png'),
             commentFilledImg:require('../assets/commentFilled.png'),
             confessionWallList:[],
-            //confessionWallImageList:[],
-            input: '',
+            pictureIcon:require('../assets/picture.png'),
+            commentInput: '',
         }
     },
     mounted(){
@@ -95,16 +100,29 @@ export default {
             //取消赞
             if(this.confessionWallList[key].isLike){
                this.$set(this.confessionWallList[key],'isLike',false)   //往confessionWallList里添加一个属性isLike，js可以随意往对象中添加数据
-
+                this.deleteConfessionWallLike(this.confessionWallList[key].id)
             }else{  // 点赞
                this.$set(this.confessionWallList[key],'isLike',true)
                window.console.log("hhh")
                window.console.log(this.confessionWallList[key].id)
-                this.$api.addLike({
-                    id:this.confessionWallList[key].id,
-                    userId:this.$store.state.userId
-                })
+               this.addLike(this.confessionWallList[key].id)
             }
+        },
+        addLike(confessionWallId){
+            this.$api.saveConfessionWallLike({
+                confessionWallId:confessionWallId,
+                userrId:this.$store.state.userId
+            }).then(()=>{
+                this.$router.go(0)
+            })
+        },
+        deleteConfessionWallLike(confessionWallId){
+            this.$api.deleteConfessionWallLike({
+                confessionWallId:confessionWallId,
+                userId:this.$store.state.userId
+            }).then(()=>{
+                this.$router.go(0)
+            })
         },
         showComment(key){
             //取消展示评论
@@ -114,7 +132,22 @@ export default {
             }else{  // 显示评论
                 this.$set(this.confessionWallList[key],'isShowComment',true)
             }
+            window.console.log(this.confessionWallList[key].isShowComment)
         },
+        submitComment(id){
+            this.$api.saveConfessionWallComment({
+                confessionWallId:id,
+                commenterId:this.$store.state.userId,
+                content:this.commentInput
+            }).then(()=>{
+                this.$message({
+                showClose: true,
+                message: '评论成功',
+                type: 'success'
+              });
+              this.$router.go(0)
+            })
+        }
     },
     components:{
         'userInfoBox':UserInfoBox,
@@ -142,7 +175,7 @@ export default {
         left:200px;
         margin: auto;
         background-color: #ffff;
-            text-align: center;
+        text-align: center;
         width: 120px;
     }
     .confessionWall-body{
@@ -161,9 +194,10 @@ export default {
         padding: 0 12px;
         border: 1px solid #007fff;
         border-radius: 14px;
-        text-align: center;
+        /* text-align: center; */
         color: #007fff;
         user-select: none;
+        
     }
     .image{
         display: flex;
@@ -172,6 +206,7 @@ export default {
     .content{
         font-size: 15px;
         margin-left: 20px;
+        /* float:left; */
     }
     .action{
         display: flex;
@@ -181,19 +216,28 @@ export default {
         border: 1px solid #ebebeb;
     }
     .like-action{
-        padding-left: 135px;
-        padding-right: 135px;
         height: 100%;
         font-size: 25px;
+        flex: 1 1 33.333%;
+        text-align: center;
     }
     .comment-action{
         height: 100%;
         font-size: 25px;
-        padding-left: 135px;
-        padding-right: 135px;
+        flex: 1 1 33.333%;
+        text-align: center;
     }
     .comment{
         margin-left: 25px;
-        /* width:200px; */
+    }
+    .input{
+        height: 50px;
+        width: 200px;
+        margin-left: 50px;
+        padding-left:10px;
+    }
+    .comment-length{
+        font-size: 5px;
+
     }
 </style>

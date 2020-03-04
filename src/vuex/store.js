@@ -4,9 +4,9 @@ import createVuexAlong from 'vuex-along'
 Vue.use(Vuex)
 const state={
     userId:'',
-    username:'',
     avatar:'',
-    followingList:[]
+    followingList:[],
+    confessionWallLikeList:[]
 }
 const mutations={
     storeNameAndAvatar(state,payload){
@@ -15,7 +15,10 @@ const mutations={
     },
     storeFollowingList(state,payload){
         state.followingList=payload.followingList
-    }
+    },
+    storeConfessionWallLikeList(state,payload){
+        state.confessionWallLikeList=payload.confessionWallLikeList
+    },
 }
 export default new Vuex.Store({
     state,

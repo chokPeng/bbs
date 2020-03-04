@@ -103,7 +103,8 @@ export default {
     saveConfessionWall:(data)=>axios.post(`/confessionWall`,data,config),
     savePostCommentReply:(data)=>axios.post(`/commentReply/post`,data),
     saveConfessionWallCommentReply:(data)=>axios.post(`/commentReply/confessionWall`,data),
-    logout:()=>axios.get(`/logout`).then((res)=>{
+    saveConfessionWallComment:(data)=>axios.post(`/confessionWallComment`,qs.stringify(data)),
+    signout:(data)=>axios.delete(`/signout`,{params:data}).then((res)=>{
         window.console.log(res)
         if(res.code==200){
             router.push("/login")
@@ -114,5 +115,20 @@ export default {
     getActive:(data)=>axios.get(`/active/${data}`),
     getTopic:(data)=>axios.get(`/topic/${data}`),
     saveUserInfo:(data)=>axios.post(`/user`,data,config),
-    signup:(data)=>axios.put(`/user`,data)
+    signup:(data)=>axios.put(`/user`,data),
+    getPrivateMessage:(data)=>axios.get(`/privateMessage`,{params:data}),
+    savePrivateMessage:(data)=>axios.post(`/privateMessage`,qs.stringify(data)),
+    getAllPrivateMessage:(data)=>axios.get(`/privateMessage/all`,{params:data}),
+    search:(data)=>axios.get(`/search`,{params:data}),
+    getOnlineUser:()=>axios.get(`onlineUser`),
+    isUserOnline:(data)=>axios.get(`isOnline`,{params:data}),    //判断用户是否在线
+    savePostLike:(data)=>axios.post(`postLike`,qs.stringify(data)),
+    saveConfessionWallLike:(data)=>axios.post(`confessionWall/Like`,qs.stringify(data)),
+    deleteConfessionWallLike:(data)=>axios.delete(`confessionWall/Like`,{params:data}),
+    deletePostLike:(data)=>axios.delete(`postLike`,{params:data}),
+    getPostLike:(data)=>axios.get(`postLike`,{params:data}),
+    deletePost:(data)=>axios.delete(`post`,{params:data}),
+    deleteConfessionWall:(data)=>axios.delete(`confessionWall`,{params:data}),
+    isUserLike:(data)=>axios.get(`isUserLike`,{params:data}),
+    getUserConfessionWallLikeList:(data)=>axios.get(`/confessionWall/like`,{params:data}),
 }

@@ -39,7 +39,7 @@ export default {
     }
 }
 </script>
-<style>
+<style  scoped>
  .signup-button{
     width: 100px;
     margin-top: 30px;

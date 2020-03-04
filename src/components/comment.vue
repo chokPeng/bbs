@@ -26,7 +26,6 @@
                 <span>:</span>
                 <span class="content">{{item.content}}</span>
         <!--                           回复 评论的回复                              -->
-        
                 <div class="bottom">
                     <span class="time">{{item.replyingTime|changeTime}}</span>
                     <!--如果当前用户就是replier,就不显示 回复 -->

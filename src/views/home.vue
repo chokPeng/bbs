@@ -6,18 +6,43 @@
             <div class="post-list">
                     <div v-for="(post,index) in postList" :key="index" >
                         <router-link :to="'/post/'+post.id">
-                                <div class="menu-item">
-                                    <span>{{post.title}}</span>
-                                    <div class="metal-infomation">
-                                        {{post.poster.username}}
-                                        {{post.postingTime|changeTime}}
+                            <div class="post-item">
+                                    <div class="menu-item">
+                                        <span class="post-title">{{post.title}}</span>
+                                        <div class="post-content" v-html="post.content"></div>
+                                        <div class="metal-infomation">
+                                            {{post.poster.username}}
+                                            {{post.postingTime|changeTime}}
+                                        </div>
                                     </div>
-                                </div>
+                            </div>
                         </router-link>
                     </div>
             </div>
             <div class="side-bar">
-                side-bar
+                <div class="nav-bar">
+                    <el-row :gutter="5">
+                        <el-col :span="12" class="el-col">
+                            <router-link :to="'/postEditor'">
+                                <img :src="postEditImg" style="width:30px;height:30px">
+                                <div class="action-name">发帖子</div>
+                            </router-link>
+                        </el-col>
+                        <el-col :span="12" class="el-col">
+                            <router-link :to="'/user/'+$store.state.userId">
+                                <img :src="userDetailImg" style="width:30px;height:30px">
+                                <div class="action-name">我的主页</div>
+                            </router-link>
+                        </el-col>
+                    </el-row>
+                </div>
+                <div class="active-user">
+                    <div style="text-align:center">
+                        <span>活跃用户</span>
+                    </div>
+                    <el-col>
+                    </el-col>
+                </div>
             </div>
         </div>
     </div>
@@ -30,7 +55,10 @@ export default {
         return {
             avatar:'',
             activeIndex: '1',
-            postList:[]
+            postList:[],
+            userDetailImg:require('../assets/userDetail.png'),
+            postEditImg:require('../assets/postEdit.png'),
+            onlineUserNumber:Int16Array
         };
     },
     components:{
@@ -38,7 +66,8 @@ export default {
     },
     mounted(){
         this.getAllPosts()
-        this.getUserFollow()
+        this.getFollowingList()
+        this.getUserConfessionWallLikeList()
     },
     methods: {
         getAllPosts(){
@@ -52,22 +81,28 @@ export default {
                 }
             })
         },
-        getUserFollow(){
+        getFollowingList(){
             this.$api.getFollowees(this.$store.state.userId).then((res)=>{
-                //  this.$store.commit('storeNameAndAvatar',{
-                //     userId:res.data.userId,
-                //     avatar:res.data.avatar
-                // })
-                this.$store.commit('storeFollowingList',{
+                 this.$store.commit('storeFollowingList',{
                     followingList:res.data.data
                 })
-                window.console.log(res.data.data)
+            })
+        },
+        getUserConfessionWallLikeList(){
+            this.$api.getUserConfessionWallLikeList({
+                userId:this.$store.state.userId
+            }).then((res)=>{
+                window.console.log(res.data)
+                this.$store.commit('storeConfessionWallLikeList',{
+                    confessionWallLikeList:res.data.data
+                })
             })
         }
+        
     }
 }
 </script>
-<style>
+<style scoped>
     .container{
         height: 100%;
     }
@@ -77,15 +112,27 @@ export default {
     }
     .main{
         width: 960px;
-        border:1px solid cadetblue;
+        /* border:1px solid cadetblue; */
         display: flex;
         flex-direction: row;
         margin: auto;
-        background-color: #fff;
+        padding: 5px;
+        text-align: center;
     }
     .post-list{
         width: 700px;
         border: 1px solid blanchedalmond;
+        background-color: #fff;
+        
+    }
+    .post-item{
+        
+        overflow: hidden;
+        padding: 10px 20px;
+        height:80px;
+        text-align: center;
+        border-bottom: 1px solid bisque;
+        border-bottom: 1px solid rgba(178,186,194,.15);
     }
     .content-box{
         display: flex;
@@ -94,13 +141,18 @@ export default {
         height: 150px;
         flex-direction: column;
     }
-    .tittle{
-        font: 20px bold black;
+    .post-title{
+        font: 20px bold;
+        color:black;
         margin-left: 0px;
+    }
+    .post-content{
+        max-height:40px;
+        color: #444;
+        font-size: 15px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        
     }
     .metal-infomation{
         font: 10px grey;
@@ -110,9 +162,22 @@ export default {
         display: flex;
         flex-direction: column;
         width: 100%;
-        /* text-align: left; */
-
-
         align-items: flex-start;
+    }
+    .side-bar{
+        margin-left: 50px;
+        width: 260px;
+    }
+    .nav-bar{
+        background-color: #fff;
+        padding: 10px;
+    }
+    .el-col{
+        height:80px;
+        text-align: center;
+    }
+    .action-name{
+        color: #444;
+        font-size: 16px;
     }
 </style>

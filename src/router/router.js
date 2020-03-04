@@ -12,7 +12,8 @@ import Active from '../components/active'
 import Edi from '../views/edi.vue'
 import Profile from '../views/profile.vue'
 import Signup from '../components/signup.vue'
-import Signin from '../components/signin.vue';
+import Signin from '../components/signin.vue'
+import Search from '../views/search'
 Vue.use(VueRouter)
 export default new VueRouter({
     mode: 'history',
@@ -36,6 +37,7 @@ export default new VueRouter({
             ]
         },
         {path:'/edi',name:'edi',component:Edi},
-        {path:'/profile',name:'profile',component:Profile}
+        {path:'/profile',name:'profile',component:Profile},
+        {path:'/search',name:'search',component:Search}
     ]
 })

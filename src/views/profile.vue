@@ -107,16 +107,14 @@ export default {
 
 }
 </script>
-<style>
-    ul{
-        list-style: none;
-    }
+<style scoped>
     .main{
         display: flex;
         flex-direction: column;
         width: 800px;
         padding: 50px;
         font-size: 20px;
+        background-color: #ffff
     }
     .avatar-button{
         margin: 0 0 0 auto;
