@@ -67,7 +67,7 @@ export default {
     mounted(){
         this.getAllPosts()
         this.getFollowingList()
-        this.getUserConfessionWallLikeList()
+        this.getUserSquareLikeList()
     },
     methods: {
         getAllPosts(){
@@ -88,13 +88,13 @@ export default {
                 })
             })
         },
-        getUserConfessionWallLikeList(){
-            this.$api.getUserConfessionWallLikeList({
+        getUserSquareLikeList(){
+            this.$api.getUserSquareLikeList({
                 userId:this.$store.state.userId
             }).then((res)=>{
                 window.console.log(res.data)
-                this.$store.commit('storeConfessionWallLikeList',{
-                    confessionWallLikeList:res.data.data
+                this.$store.commit('storeSquareLikeList',{
+                    squareLikeList:res.data.data
                 })
             })
         }

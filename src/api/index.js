@@ -86,7 +86,7 @@ let config = {
     } 
 }
 export default {
-    getConfessionWall:(data)=>axios.get(`/confessionWall`,{params:{
+    getSquare:(data)=>axios.get(`/square`,{params:{
         topic:data}
     }),
     getPostTopic:()=>axios.get(`/post/topic`),
@@ -94,16 +94,16 @@ export default {
     getPost: (data) => axios.get(`/post/${data}`),
     getAllPosts:()=>axios.get(`/post`),
     getUserInfo:(data)=>axios.get(`/user/${data}`),
-    addLike:(data)=>axios.post(`confessionWall/like`,qs.stringify(data)),
+    addLike:(data)=>axios.post(`square/like`,qs.stringify(data)),
     follow:(data)=>axios.post(`/relationship/follow`,qs.stringify(data)),
     unfollow:(data)=>axios.post(`/relationship/unfollow`,qs.stringify(data)),
     getFollowers:(data)=>axios.get(`/relationship/followers/${data}`),
     getFollowees:(data)=>axios.get(`/relationship/followees/${data}`),
     savePostComment:(data)=>axios.post(`/postComment`,qs.stringify(data)),
-    saveConfessionWall:(data)=>axios.post(`/confessionWall`,data,config),
+    saveSquare:(data)=>axios.post(`/square`,data,config),
     savePostCommentReply:(data)=>axios.post(`/commentReply/post`,data),
-    saveConfessionWallCommentReply:(data)=>axios.post(`/commentReply/confessionWall`,data),
-    saveConfessionWallComment:(data)=>axios.post(`/confessionWallComment`,qs.stringify(data)),
+    saveSquareCommentReply:(data)=>axios.post(`/commentReply/square`,data),
+    saveSquareComment:(data)=>axios.post(`/squareComment`,qs.stringify(data)),
     signout:(data)=>axios.delete(`/signout`,{params:data}).then((res)=>{
         window.console.log(res)
         if(res.code==200){
@@ -123,12 +123,12 @@ export default {
     getOnlineUser:()=>axios.get(`onlineUser`),
     isUserOnline:(data)=>axios.get(`isOnline`,{params:data}),    //判断用户是否在线
     savePostLike:(data)=>axios.post(`postLike`,qs.stringify(data)),
-    saveConfessionWallLike:(data)=>axios.post(`confessionWall/Like`,qs.stringify(data)),
-    deleteConfessionWallLike:(data)=>axios.delete(`confessionWall/Like`,{params:data}),
+    saveSquareLike:(data)=>axios.post(`square/Like`,qs.stringify(data)),
+    deleteSquareLike:(data)=>axios.delete(`square/Like`,{params:data}),
     deletePostLike:(data)=>axios.delete(`postLike`,{params:data}),
     getPostLike:(data)=>axios.get(`postLike`,{params:data}),
     deletePost:(data)=>axios.delete(`post`,{params:data}),
-    deleteConfessionWall:(data)=>axios.delete(`confessionWall`,{params:data}),
+    deleteSquare:(data)=>axios.delete(`square`,{params:data}),
     isUserLike:(data)=>axios.get(`isUserLike`,{params:data}),
-    getUserConfessionWallLikeList:(data)=>axios.get(`/confessionWall/like`,{params:data}),
+    getUserSquareLikeList:(data)=>axios.get(`/square/like`,{params:data}),
 }

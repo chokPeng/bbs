@@ -1,42 +1,42 @@
 <template>
-<div class="confessionWall">
+<div class="square">
     <navigationHeader></navigationHeader>
-    <div class="confessionWall-main">
+    <div class="square-main">
         <div class="navigation-bar">
             <el-menu
             default-active="1"
             class="el-menu-vertical-demo">
-            <el-menu-item index="1" @click="getConfessionWall()">
+            <el-menu-item index="1" @click="getSquare()">
                 <span>全部</span>
             </el-menu-item>
-            <el-menu-item index="2" @click="getConfessionWall('树洞')">
+            <el-menu-item index="2" @click="getSquare('树洞')">
                 <span>树洞</span>
             </el-menu-item>
-            <el-menu-item index="3" @click="getConfessionWall('资讯')">
+            <el-menu-item index="3" @click="getSquare('资讯')">
                 <span>资讯</span>
             </el-menu-item>
-            <el-menu-item index="4" @click="getConfessionWall('其他')">
-                <span>其他</span>
+            <el-menu-item index="4" @click="getSquare('杂谈')">
+                <span>杂谈</span>
             </el-menu-item>
-            <el-menu-item index="5" @click="getConfessionWall('找对象')">
-                <span>找对象</span>
+            <el-menu-item index="5" @click="getSquare('表白墙')">
+                <span>表白墙</span>
             </el-menu-item>
-            <el-menu-item index="6"  @click="getConfessionWall('寻物启事')">
+            <el-menu-item index="6"  @click="getSquare('寻物启事')">
                 <span>寻物启事</span>
             </el-menu-item>
-            <el-menu-item index="7" @click="getConfessionWall('失物招领')">
+            <el-menu-item index="7" @click="getSquare('失物招领')">
                 <span>失物招领</span>
             </el-menu-item>
             </el-menu>
         </div>
-        <div class="confessionWall-body" v-if="confessionWallList">
-            <confessionWallEditor></confessionWallEditor>
-            <div class="confessionWall-pin" v-for="(item,key) in confessionWallList" :key="key">
+        <div class="square-body" v-if="squareList">
+            <squareEditor></squareEditor>
+            <div class="square-pin" v-for="(item,key) in squareList" :key="key">
                     <userInfoBox :user="item.poster"></userInfoBox>
                     <div class="content">
                         <span>{{item.content}}</span>
-                        <div  v-if="item.confessionWallImage.length!=0">
-                            <swiper :imageList="item.confessionWallImage"></swiper>
+                        <div  v-if="item.squareImage.length!=0">
+                            <swiper :imageList="item.squareImage"></swiper>
                         </div>
                         <div class="ss" v-if="item.topic">
                             <span class="topic" v-if="item.topic">{{item.topic}}</span>
@@ -72,53 +72,53 @@
 import Swiper from '../components/swiper'
 import UserInfoBox from '../components/userInfo/userInfoBox'
 import Comment from '../components/comment'
-import ConfessionWallEditor from '../components/confessionWallEditor'
+import SquareEditor from '../components/squareEditor'
 import NavigationHeader from '../components/navigationHeader'
 export default {
-    name: 'confessionWall',
+    name: 'square',
     data (){
         return{
             likeFilledImg:require('../assets/goodFilled.png'),
             likeImg:require('../assets/good.png'),
             commentImg:require('../assets/comment.png'),
             commentFilledImg:require('../assets/commentFilled.png'),
-            confessionWallList:[],
+            squareList:[],
             pictureIcon:require('../assets/picture.png'),
             commentInput: '',
         }
     },
     mounted(){
-        this.getConfessionWall()
+        this.getSquare()
     },
     methods:{
-        getConfessionWall(type){
-            this.$api.getConfessionWall(type).then((res)=>{
-                this.confessionWallList=res.data.data
+        getSquare(type){
+            this.$api.getSquare(type).then((res)=>{
+                this.squareList=res.data.data
             })
         },
         like(key){
             //取消赞
-            if(this.confessionWallList[key].isLike){
-               this.$set(this.confessionWallList[key],'isLike',false)   //往confessionWallList里添加一个属性isLike，js可以随意往对象中添加数据
-                this.deleteConfessionWallLike(this.confessionWallList[key].id)
+            if(this.squareList[key].isLike){
+               this.$set(this.squareList[key],'isLike',false)   //往squareList里添加一个属性isLike，js可以随意往对象中添加数据
+                this.deleteSquareLike(this.squareList[key].id)
             }else{  // 点赞
-               this.$set(this.confessionWallList[key],'isLike',true)
+               this.$set(this.squareList[key],'isLike',true)
                window.console.log("hhh")
-               window.console.log(this.confessionWallList[key].id)
-               this.addLike(this.confessionWallList[key].id)
+               window.console.log(this.squareList[key].id)
+               this.addLike(this.squareList[key].id)
             }
         },
-        addLike(confessionWallId){
-            this.$api.saveConfessionWallLike({
-                confessionWallId:confessionWallId,
+        addLike(squareId){
+            this.$api.saveSquareLike({
+                squareId:squareId,
                 userrId:this.$store.state.userId
             }).then(()=>{
                 this.$router.go(0)
             })
         },
-        deleteConfessionWallLike(confessionWallId){
-            this.$api.deleteConfessionWallLike({
-                confessionWallId:confessionWallId,
+        deleteSquareLike(squareId){
+            this.$api.deleteSquareLike({
+                squareId:squareId,
                 userId:this.$store.state.userId
             }).then(()=>{
                 this.$router.go(0)
@@ -126,17 +126,17 @@ export default {
         },
         showComment(key){
             //取消展示评论
-            if(this.confessionWallList[key].isShowComment){
+            if(this.squareList[key].isShowComment){
                 
-                this.$set(this.confessionWallList[key],'isShowComment',false)
+                this.$set(this.squareList[key],'isShowComment',false)
             }else{  // 显示评论
-                this.$set(this.confessionWallList[key],'isShowComment',true)
+                this.$set(this.squareList[key],'isShowComment',true)
             }
-            window.console.log(this.confessionWallList[key].isShowComment)
+            window.console.log(this.squareList[key].isShowComment)
         },
         submitComment(id){
-            this.$api.saveConfessionWallComment({
-                confessionWallId:id,
+            this.$api.saveSquareComment({
+                squareId:id,
                 commenterId:this.$store.state.userId,
                 content:this.commentInput
             }).then(()=>{
@@ -152,17 +152,17 @@ export default {
     components:{
         'userInfoBox':UserInfoBox,
         'comment':Comment,
-        'confessionWallEditor':ConfessionWallEditor,
+        'squareEditor':SquareEditor,
         'navigationHeader':NavigationHeader,
         'swiper':Swiper
     }
 }
 </script>
 <style scoped>
-    .confessionWall{
+    .square{
         height:100%;
     }
-    .confessionWall-main{
+    .square-main{
         display: flex;
         flex-direction: column;
         width: 900px;
@@ -178,10 +178,10 @@ export default {
         text-align: center;
         width: 120px;
     }
-    .confessionWall-body{
+    .square-body{
         padding: 10px 10rem 0 10rem;
     }
-    .confessionWall-pin{
+    .square-pin{
          background-color: #ffff;
          margin-bottom: 10px;
          border-radius: .2rem;

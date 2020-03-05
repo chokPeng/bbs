@@ -8,7 +8,7 @@
                 <router-link :to="'/home'">首页</router-link>
             </el-col>
             <el-col :span="2" class="el-col">
-                <router-link :to="'/confessionWall'">公告墙</router-link>
+                <router-link :to="'/square'">广场</router-link>
             </el-col>
             <el-col :span="4" class="el-col">
                 <!-- <div class="block"> -->

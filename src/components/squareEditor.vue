@@ -22,7 +22,7 @@
                     <span>话题</span>
             </div>
             <div >
-                <button @click="saveConfessionWall" class="button">发表</button>
+                <button @click="saveSquare" class="button">发表</button>
             </div>
             <input type="file" accept=".png,.jpg" @change="changeMultipleFiles"  ref="file" multiple="multiple" style="display:none">
         </div>
@@ -79,7 +79,7 @@ export default {
             window.console.log(this.$refs.file.value)
             this.$refs.file.value = null;
         },
-      saveConfessionWall(){
+      saveSquare(){
           window.console.log("dddd")
            const uploadForm=new FormData();
           for(let i=0,length=this.file.length;i<length;i++){
@@ -88,14 +88,14 @@ export default {
           uploadForm.append('content', this.content);
           uploadForm.append('posterId', this.$store.state.userId);
           uploadForm.append('topic',this.topic)
-          this.$api.saveConfessionWall(uploadForm).then((res)=>{
+          this.$api.saveSquare(uploadForm).then((res)=>{
               this.$message({
                 showClose: true,
                 message: '发表成功',
                 type: 'success'
               });
               this.$router.go(0)
-              //this.$router.push('/confessionWall')
+              //this.$router.push('/Square')
               window.console.log(res.data)
           })
       },
@@ -116,7 +116,7 @@ export default {
       },
       getTopic(){
           if(this.isShowTopicSelect==false){
-            this.$api.getTopic("confessionWall").then((res)=>{
+            this.$api.getTopic("square").then((res)=>{
                 this.topicOptions=res.data.data
             })
           }

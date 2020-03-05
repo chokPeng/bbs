@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '@/views/login.vue'
 import Home from '@/views/home.vue'
-import Confessionwall from '@/views/confessionWall.vue'
+import Square from '@/views/square.vue'
 import PostEditor from '@/views/postEditor.vue'
 import PostDetail from '@/views/postDetail.vue'
 import UserDetail from '@/views/userDetail.vue'
@@ -26,7 +26,7 @@ export default new VueRouter({
         },
         {path:'/home',name:'home', component: Home },
         {path:'/',redirect:'login'},
-        {path:'/confessionWall',name:'confessionWall',component: Confessionwall},
+        {path:'/square',name:'square',component: Square},
         {path:'/postEditor',name:'postEditor',component:PostEditor},
         {path:'/post/:id',name:'post',component:PostDetail},  //可通过this.$route.params.id获取id的值
         {path:'/user/:userId/',name:'user',component:UserDetail,
