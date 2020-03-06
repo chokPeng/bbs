@@ -6,7 +6,8 @@ const state={
     userId:'',
     avatar:'',
     followingList:[],
-    squareLikeList:[]
+    squareLikeList:[],
+    collectionList:[]
 }
 const mutations={
     storeNameAndAvatar(state,payload){
@@ -19,6 +20,9 @@ const mutations={
     storeSquareLikeList(state,payload){
         state.squareLikeList=payload.squareLikeList
     },
+    storeCollectionList(state,payload){
+        state.collectionList=payload.collectionList
+    }
 }
 export default new Vuex.Store({
     state,

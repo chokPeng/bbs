@@ -9,6 +9,7 @@
                     <router-link class="item" :to="{path:`/user/${userId}/active`,params:{userId:userId}}"><span>动态</span></router-link>
                     <router-link class="item" :to="{path:`/user/${userId}/follower`, params: {userId:userId}}"><span>关注者</span></router-link>
                     <router-link class="item" :to="{path:`/user/${userId}/followee`, params: {userId:userId}}"><span>关注了</span></router-link>
+                    <router-link class="item" :to="{path:`/user/${userId}/collection`}"><span>收藏夹</span></router-link>
                 </div>
             </div>
             <div class="router-view"><router-view></router-view></div>

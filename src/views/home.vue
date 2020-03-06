@@ -68,6 +68,7 @@ export default {
         this.getAllPosts()
         this.getFollowingList()
         this.getUserSquareLikeList()
+        this.getCollectionList()
     },
     methods: {
         getAllPosts(){
@@ -95,6 +96,16 @@ export default {
                 window.console.log(res.data)
                 this.$store.commit('storeSquareLikeList',{
                     squareLikeList:res.data.data
+                })
+            })
+        },
+        getCollectionList(){
+            this.$api.getCollection({
+                collectorId:this.$store.state.userId
+            }).then((res)=>{
+                window.console.log(res.data.data)
+                this.$store.commit('storeCollectionList',{
+                    collectionList:res.data.data
                 })
             })
         }

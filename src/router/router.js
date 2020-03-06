@@ -14,6 +14,7 @@ import Profile from '../views/profile.vue'
 import Signup from '../components/signup.vue'
 import Signin from '../components/signin.vue'
 import Search from '../views/search'
+import Collection from '../components/collection.vue'
 Vue.use(VueRouter)
 export default new VueRouter({
     mode: 'history',
@@ -33,7 +34,8 @@ export default new VueRouter({
             children:[
                 {path:'follower',component:Follower},
                 {path:'followee',component:Followee},
-                {path:'active',component:Active}
+                {path:'active',component:Active},
+                {path:'collection',component:Collection}
             ]
         },
         {path:'/edi',name:'edi',component:Edi},

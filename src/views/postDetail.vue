@@ -7,6 +7,7 @@
                 <img :src="goodImg" style="width:50px;height:50px;"><span>{{goodNum}}</span>
             </div>
             <div><img :src="commentImg" style="width:50px;height:50px;"><span>{{commentList.length}}</span></div>
+            <!-- <div @click="saveCollection"><img :src="collectImg" style="width:50px;height:50px;"></div> -->
         </div>
         <div class="main-area">
             <div v-if="JSON.stringify(user)!='{}'">
@@ -42,6 +43,7 @@ export default {
             id:'',
             goodImg: require('../assets/good.png'),
             commentImg: require('../assets/comment.png'),
+            collectImg:require('../assets/collect.png'),
             goodNum:Int16Array,
             isGood:false,
             commentNum:1,
@@ -168,6 +170,33 @@ export default {
               });
               this.$router.go(0)
             })
+        },
+        saveCollection(){
+            if(!this.isCollect==true){
+                this.$api.saveCollection({
+                    postId:this.id,
+                    collectorId:this.$store.state.userId
+                }).then(()=>{
+                    this.collectImg=require('../assets/collectFilled.png'),
+                    this.$message({
+                        showClose: true,
+                        message: '收藏成功',
+                        type: 'success'
+                    })
+                })
+            }else{
+                this.$api.deleteCollection({
+                    postId:this.id,
+                    collectorId:this.$store.state.userId
+                }).then(()=>{
+                    this.collectImg=require('../assets/collect.png'),
+                    this.$message({
+                        showClose: true,
+                        message: '取消收藏成功',
+                        type: 'success'
+                    })
+                })
+            }
         }
     }
 }

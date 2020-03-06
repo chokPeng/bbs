@@ -131,4 +131,7 @@ export default {
     deleteSquare:(data)=>axios.delete(`square`,{params:data}),
     isUserLike:(data)=>axios.get(`isUserLike`,{params:data}),
     getUserSquareLikeList:(data)=>axios.get(`/square/like`,{params:data}),
+    saveCollection:(data)=>axios.post(`/collection`,qs.stringify(data)),
+    deleteCollection:(data)=>axios.delete(`/collection`,{params:data}),
+    getCollection:(data)=>axios.get(`/collection`,{params:data})
 }

@@ -13,6 +13,7 @@
             </div>
         </div>
         <div class="comment-input-box" v-if="comment.isReply">
+            <img :src="$store.state.avatar|addImagePrefix" style="width:40px;height:40px;border-radius:50%;">
             <input class="input" v-model="commentReplyInput" placeholder="回复......">
             <div v-if="comment.commenter.userId!=currentUserId">
                 <button  @click="submitPostCommentReply(comment.id,comment.commenter.userId)" class="button">回复</button>
@@ -36,6 +37,7 @@
                 </div>
                 <div v-if="item.isReplyReply">
                     <div class="reply-reply-input-box">
+                        <img :src="$store.state.avatar|addImagePrefix" style="width:40px;height:40px;border-radius:50%;">
                         <input class="input" v-model="replyReplyInput" placeholder="回复......">
                         <button @click="submitPostCommentReplyReply(item.commentId,item.replier.userId)" class="button">回复</button>
                     </div>
@@ -167,5 +169,10 @@ export default {
         flex-direction: row;
         font-size: 10px;
         color: #8a9aa9;
+    }
+    .input{
+        height:40px;
+        margin-left: 20px;
+        margin-right: 20px;
     }
 </style>
