@@ -2,22 +2,22 @@
 <div>
     <navigationHeader></navigationHeader>
     <div class="user-main">
-        <div class="user-content">
-            <userInfoWall :user="user" class="user-info-wall"></userInfoWall>
+        <div class="user-content" v-if="user!=null">
+            <userInfoWall :user="user"></userInfoWall>
             <div class="list-block">
                 <div class="detail-list">     
-                    <router-link class="item" :to="{path:`/user/${userId}/active`,params:{userId:userId}}"><span>动态</span></router-link>
-                    <router-link class="item" :to="{path:`/user/${userId}/follower`, params: {userId:userId}}"><span>关注者</span></router-link>
-                    <router-link class="item" :to="{path:`/user/${userId}/followee`, params: {userId:userId}}"><span>关注了</span></router-link>
-                    <router-link class="item" :to="{path:`/user/${userId}/collection`}"><span>收藏夹</span></router-link>
+                    <router-link class="item" :to="'/user/'+user.userId+'/active'"><span>动态</span></router-link>
+                    <router-link class="item" :to="'/user/'+user.userId+'/follower'"><span>关注者</span></router-link>
+                    <router-link class="item" :to="'/user/'+user.userId+'/followee'"><span>关注了</span></router-link>
+                    <router-link class="item" :to="'/user/'+user.userId+'/collection'"><span>收藏夹</span></router-link>
                 </div>
             </div>
             <div class="router-view"><router-view></router-view></div>
         </div>
         <div class="right-side-bar">
             <div class="relationship-bar">
-                <router-link :to="{path:`/user/${userId}/follower`, params: {userId:userId}}"><div>关注者</div><div>4</div></router-link>
-                <router-link :to="{path:`/user/${userId}/followee`,params:{userId:userId}}"><div>关注了</div><div>1</div></router-link>
+                <router-link :to="'/user/'+user.userId+'/follower'"><div>关注者</div><div>{{user.followerNumber}}</div></router-link>
+                <router-link :to="'/user/'+user.userId+'/followee'"><div>关注了</div><div>{{user.followeeNumber}}</div></router-link>
             </div>
         </div>
     </div>
@@ -35,19 +35,17 @@ export default {
     data(){
         return{
             user:{},
-            userId:'',
         }
     },
     mounted(){
-        this.userId=this.$route.params.userId
-        this.getUserInfo(this.userId)
+        this.getUserInfo(this.$route.params.userId)
     },
     methods:{
        getUserInfo(userId){
            this.$api.getUserInfo(userId).then((res)=>{
                this.user=res.data.data
            })
-       } 
+       }
     }
 }
 </script>

@@ -32,26 +32,28 @@
         <div class="square-body" v-if="squareList">
             <squareEditor></squareEditor>
             <div class="square-pin" v-for="(item,key) in squareList" :key="key">
+                <router-link :to="'/square/'+item.id">
                     <userInfoBox :user="item.poster"></userInfoBox>
                     <div class="content">
                         <span>{{item.content}}</span>
                         <div  v-if="item.squareImage.length!=0">
                             <swiper :imageList="item.squareImage"></swiper>
                         </div>
-                        <div class="ss" v-if="item.topic">
-                            <span class="topic" v-if="item.topic">{{item.topic}}</span>
+                        <div v-if="item.topic">
+                            <span class="topic" >{{item.topic}}</span>
                         </div>
                     </div>
+                </router-link>
                     <div class="action">
                         <div class="like-action">
                             <img :src="likeFilledImg" @click="like(key)" v-if="item.isLike" style="width:25px;height:25px;cursor:pointer;"> 
                             <img :src="likeImg" @click="like(key)" v-else style="width:25px;height:25px;cursor:pointer;">
-                            <span>{{item.like}}</span>
+                            <span class="length">{{item.like}}</span>
                         </div>
                         <div class="comment-action" >
                             <img :src="commentFilledImg" @click="showComment(key)" v-if="item.isShowComment" style="width:25px;height:25px;cursor:pointer;"> 
                             <img :src="commentImg" @click="showComment(key)" v-else style="width:25px;height:25px;cursor:pointer;">
-                            <span class="comment-length">{{item.comments.length}}</span>
+                            <span class="length">{{item.comments.length}}</span>
                         </div>
                     </div>
                 <div  class="comment" v-if="item.isShowComment">
@@ -78,8 +80,8 @@ export default {
     name: 'square',
     data (){
         return{
-            likeFilledImg:require('../assets/goodFilled.png'),
-            likeImg:require('../assets/good.png'),
+            likeFilledImg:require('../assets/likeFilled.png'),
+            likeImg:require('../assets/like.png'),
             commentImg:require('../assets/comment.png'),
             commentFilledImg:require('../assets/commentFilled.png'),
             squareList:[],
@@ -94,40 +96,45 @@ export default {
         getSquare(type){
             this.$api.getSquare(type).then((res)=>{
                 this.squareList=res.data.data
+                this.isUserLike()
             })
+        },
+        isUserLike(){
+            for(let i=0,length=this.squareList.length;i<length;i++){
+                for(let j=0,length=this.$store.state.squareLikeList.length;j<length;j++){
+                    if(this.squareList[i].id==this.$store.state.squareLikeList[j]){
+                        this.$set(this.squareList[i],'isLike',true)
+                    }
+                }
+            }
         },
         like(key){
             //取消赞
             if(this.squareList[key].isLike){
                this.$set(this.squareList[key],'isLike',false)   //往squareList里添加一个属性isLike，js可以随意往对象中添加数据
-                this.deleteSquareLike(this.squareList[key].id)
+               this.squareList[key].like--;
+               this.deleteSquareLike(this.squareList[key].id)
             }else{  // 点赞
                this.$set(this.squareList[key],'isLike',true)
-               window.console.log("hhh")
-               window.console.log(this.squareList[key].id)
                this.addLike(this.squareList[key].id)
+               this.squareList[key].like++
             }
         },
         addLike(squareId){
             this.$api.saveSquareLike({
                 squareId:squareId,
-                userrId:this.$store.state.userId
-            }).then(()=>{
-                this.$router.go(0)
+                userId:this.$store.state.userId
             })
         },
         deleteSquareLike(squareId){
             this.$api.deleteSquareLike({
                 squareId:squareId,
                 userId:this.$store.state.userId
-            }).then(()=>{
-                this.$router.go(0)
             })
         },
         showComment(key){
             //取消展示评论
             if(this.squareList[key].isShowComment){
-                
                 this.$set(this.squareList[key],'isShowComment',false)
             }else{  // 显示评论
                 this.$set(this.squareList[key],'isShowComment',true)
@@ -135,6 +142,14 @@ export default {
             window.console.log(this.squareList[key].isShowComment)
         },
         submitComment(id){
+            if(this.commentInput==''){
+                this.$message({
+                showClose: true,
+                message: '评论不能为空',
+                type: 'error'
+                });
+                return ;
+            }
             this.$api.saveSquareComment({
                 squareId:id,
                 commenterId:this.$store.state.userId,
@@ -236,7 +251,7 @@ export default {
         margin-left: 50px;
         padding-left:10px;
     }
-    .comment-length{
+    .length{
         font-size: 5px;
 
     }

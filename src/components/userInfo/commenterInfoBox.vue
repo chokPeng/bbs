@@ -1,12 +1,12 @@
 <template>
     <div class="commenterInfoBox">
         <div v-if="JSON.stringify(commenter)!='{}'">
-            <router-link :to="'/user/'+commenter.userId">
+            <router-link :to="'/user/'+commenter.userId+'/active'">
                 <img :src="commenter.avatar|addImagePrefix" style="width:35px; height:35px; border-radius:50%;margin-right: 10px;">
             </router-link>
         </div>
         <div class="information">
-            <router-link :to="'/user/'+commenter.userId">
+            <router-link :to="'/user/'+commenter.userId+'/active'">
                 <span>{{commenter.username}}</span>
             </router-link>
             <div class="introduction">

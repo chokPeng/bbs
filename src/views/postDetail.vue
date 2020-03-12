@@ -1,32 +1,39 @@
 <template>
 <div>
     <navigationHeader></navigationHeader>
-    <div class="main-container">
+    <div class="main-container" v-if="JSON.stringify(post)!='{}'">
         <div class="article-suspended-panel">
-            <div @click="good">
-                <img :src="goodImg" style="width:50px;height:50px;"><span>{{goodNum}}</span>
+            <div @click="like">
+                <img :src="likeImg" style="width:50px;height:50px;"><span>{{likeNum}}</span>
             </div>
-            <div><img :src="commentImg" style="width:50px;height:50px;"><span>{{commentList.length}}</span></div>
-            <!-- <div @click="saveCollection"><img :src="collectImg" style="width:50px;height:50px;"></div> -->
+            <div><img :src="commentImg" style="width:50px;height:50px;"><span v-if="post.comment.length!=0">{{post.comment.length}}</span></div>
+            <div @click="saveCollection"><img :src="collectImg" style="width:50px;height:50px;"></div>
         </div>
         <div class="main-area">
-            <div v-if="JSON.stringify(user)!='{}'">
-                <userInfoBox :user="user"></userInfoBox>
+            <div class="header">
+                <userInfoBox :user="post.poster"></userInfoBox>
+                <div v-if="post.poster.userId==$store.state.userId">
+                    <button @click="deletePost" class="delete-button">删除</button>
+                </div>
             </div>
-            <div class="post-title">{{title}}</div>
-            <div v-html="content"></div>
-            <div>{{postingTime|changeTime}}</div>
+            <div class="post-title">
+                <span>{{post.title}}</span>
+                <span>{{post.readingTime}}</span>
+            </div>
+            <div v-html="post.content"></div>
+            <div class="bottom">
+                <span class="postingTime">{{post.postingTime|changeTime}}</span>
+                <span class="readingTimes">阅读{{post.readingTimes}}</span>
+            </div>
             <div class="comment-title">评论</div>
             <div class="comment-input-box">
                 <img :src="$store.state.avatar|addImagePrefix" style="width:50px;height:50px;border-radius:50%;">
                 <input class="input" v-model="commentInput" placeholder="输入评论......">
                 <button @click="submitComment" class="button">评论</button>
             </div>
-            <comment :commentList="commentList"></comment>
+            <comment :commentList="post.comment"></comment>
         </div>
-        <div class="side-bar" v-if="user.userId==$store.state.userId">
-           <button @click="deletePost" class="delete-button">删除帖子</button>
-        </div>
+        
     </div>
 </div>
 </template>
@@ -38,29 +45,23 @@ export default {
     name:'post',
     data(){
         return{
-            user:{},
-            content:'',
-            id:'',
-            goodImg: require('../assets/good.png'),
+            post:{},
+            likeImg: require('../assets/like.png'),
             commentImg: require('../assets/comment.png'),
-            collectImg:require('../assets/collect.png'),
-            goodNum:Int16Array,
-            isGood:false,
+            collectImg: require('../assets/collect.png'),
+            likeNum:0,
+            isLike:false,
             commentNum:1,
-            commentList:[],
             input:'',
             commentInput:'',
-            postingTime:'',
             commentReplyInput:'',
-            title:'',
         }
     },
     mounted(){
-        window.console.log(JSON.stringify(this.user))
         this.id=this.$route.params.id
         this.getPost(this.id)
         this.getPostLike(this.id)
-        this.isUserLike()
+        
     },
     components:{
         'userInfoBox':UserInfoBox,
@@ -70,20 +71,31 @@ export default {
     methods:{
         isUserLike(){
             this.$api.isUserLike({
-                userId:this.$store.state.userId,
-                id:this.id
+                userNumber:this.$store.state.userNumber,
+                id:this.post.id
             }).then((res)=>{
                 window.console.log(res.data.data)
                 //返回结果为1,证明用户已经点过赞了
                 if(res.data.data==1){
-                    this.isGood=true
-                    this.goodImg=require('../assets/goodFilled.png')
+                    this.isLike=true
+                    this.likeImg=require('../assets/likeFilled.png')
                 }
             })
         },
+        //判断是否已经被收藏
+        isCollected(){
+            for(let i=0,length=this.$store.state.collectionList.length;i<length;i++){
+                if(this.post.id==this.$store.state.collectionList[i]){
+                    window.console.log("ssssssaaaa")
+                    this.collectImg=require('../assets/collectFilled.png')
+                    break;
+                }
+            }
+            
+        },
         deletePost(){
             this.$api.deletePost({
-                postId:this.id
+                postId:this.post.id
             }).then((res)=>{
                 window.console.log(res.data.data)
                 if(res.data.code==1){
@@ -101,16 +113,16 @@ export default {
                 postId:postId
             }).then((res)=>{
                 window.console.log(res.data.data)
-                this.goodNum=res.data.data
+                this.likeNum=res.data.data
             })
         },
          showReply(key){
-            if(this.commentList[key].isReply){
-                this.$set(this.commentList[key],'isReply',false)
-                window.console.log(this.commentList[key].isReply)
+            if(this.post.comment[key].isReply){
+                this.$set(this.post.comment[key],'isReply',false)
+                window.console.log(this.post.comment[key].isReply)
             }
            else{
-                this.$set(this.commentList[key],'isReply',true)
+                this.$set(this.post.comment[key],'isReply',true)
             }
             
         },
@@ -126,40 +138,38 @@ export default {
         getPost(id){
                 this.$api.getPost(id).then((res)=>{
                     window.console.log(res.data.data)
-                    this.title=res.data.data.title
-                    this.user=res.data.data.poster
-                    this.content=res.data.data.content
-                    this.postingTime=res.data.data.postingTime
-                    this.commentList=res.data.data.comment
-                    window.console.log("neibu")
-                    window.console.log(JSON.stringify(this.user)=={})
+                    this.post=res.data.data
+                    this.isUserLike()
+                    this.isCollected()
             })
         },
-        good(){
-            if(this.isGood==false){
-                this.goodImg=require('../assets/goodFilled.png')
+        like(){
+            if(this.isLike==false){
+                this.likeImg=require('../assets/likeFilled.png')
                 this.$api.savePostLike({
                     userId:this.$store.state.userId,
-                    postId:this.id
+                    userNumber:this.$store.state.userNumber,
+                    postId:this.post.id
                 }).then((res)=>{
                     window.console.log(res.data.data)
                 })
-                this.goodNum++;
+                this.likeNum++;
             }else{
-                this.goodImg=require('../assets/good.png')
+                this.likeImg=require('../assets/like.png')
                 this.$api.deletePostLike({
-                    postId:this.id,
-                    userId:this.$store.state.userId
+                    postId:this.post.id,
+                    userId:this.$store.state.userId,
+                    userNumber:this.$store.state.userNumber
                 }).then((res)=>{
                     window.console.log(res.data.data)
                 })
-                this.goodNum--;
+                this.likeNum--;
             }
-            this.isGood=!this.isGood;
+            this.isLike=!this.isLike;
         },
         submitComment(){
             this.$api.savePostComment({
-                postId:this.id,
+                postId:this.post.id,
                 commenterId:this.$store.state.userId,
                 content:this.commentInput
             }).then(()=>{
@@ -174,7 +184,7 @@ export default {
         saveCollection(){
             if(!this.isCollect==true){
                 this.$api.saveCollection({
-                    postId:this.id,
+                    postId:this.post.id,
                     collectorId:this.$store.state.userId
                 }).then(()=>{
                     this.collectImg=require('../assets/collectFilled.png'),
@@ -186,7 +196,7 @@ export default {
                 })
             }else{
                 this.$api.deleteCollection({
-                    postId:this.id,
+                    postId:this.post.id,
                     collectorId:this.$store.state.userId
                 }).then(()=>{
                     this.collectImg=require('../assets/collect.png'),
@@ -214,6 +224,11 @@ export default {
         width: 700px;
         padding: 20px;
     }
+    .header{
+        display: flex;
+        flex-direction: row;
+        position: relative;
+    }
     .post-title{
         color:  black;
         font-size: 20px;
@@ -233,9 +248,18 @@ export default {
         margin-left: -7rem;
         top: 16rem;
     }
-    .side-bar{
-        width: 200px;
-        padding: 10px;
+    .bottom{
+        position: relative;
+        font-size: 1px;
+        color: #909090;
+    }
+    .postingTime{
+        position: absolute;
+        left: 10px;
+    }
+    .readingTimes{
+        position: absolute;
+        right:  10px;
     }
     .input{
         margin-left: 10px;
@@ -258,12 +282,14 @@ export default {
         padding: 10px;
     }
     .delete-button{
-    margin: 0 0 0 auto;
-    padding: 0;
-    width: 80px;
-    height: 26px;
-    font-size: 13px;
-    border-color: #6cbd45;
-    color: #6cbd45;
-}
+        margin: 0 0 0 auto;
+        padding: 0;
+        width: 80px;
+        height: 26px;
+        font-size: 13px;
+        border-color: #6cbd45;
+        color: #6cbd45;
+        position: absolute;
+        right:20px;
+    }
 </style>

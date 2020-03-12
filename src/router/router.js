@@ -15,6 +15,7 @@ import Signup from '../components/signup.vue'
 import Signin from '../components/signin.vue'
 import Search from '../views/search'
 import Collection from '../components/collection.vue'
+import SquareDetail from '../views/squareDetail.vue'
 Vue.use(VueRouter)
 export default new VueRouter({
     mode: 'history',
@@ -28,6 +29,7 @@ export default new VueRouter({
         {path:'/home',name:'home', component: Home },
         {path:'/',redirect:'login'},
         {path:'/square',name:'square',component: Square},
+        {path:'/square/:id',name:'squareDetail',component: SquareDetail},
         {path:'/postEditor',name:'postEditor',component:PostEditor},
         {path:'/post/:id',name:'post',component:PostDetail},  //可通过this.$route.params.id获取id的值
         {path:'/user/:userId/',name:'user',component:UserDetail,

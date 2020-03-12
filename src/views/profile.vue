@@ -77,6 +77,32 @@ export default {
             this.$refs.file.value = null;
        },
        saveUserInfo(){
+           if(this.username==''){
+                this.$message({
+                showClose: true,
+                message: '用户名不能为空',
+                type: 'error'
+                });
+                return ;
+            }
+           const regPhoneNumber = /^1[0-9]{10}$/;
+            if(this.phoneNumber==''|| !regPhoneNumber.test(this.phoneNumber)) {
+                this.$message({
+                showClose: true,
+                message: '输入正确的手机号',
+                type: 'error'
+                });
+                return ;
+            }
+            const regEmail = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+            if(this.email==''|| !regEmail.test(this.email)) {
+                this.$message({
+                showClose: true,
+                message: '输入正确的邮箱',
+                type: 'error'
+                });
+                return ;
+            }
           window.console.log("dddd")
           const uploadForm=new FormData();
           uploadForm.append('userId',this.$store.state.userId)
@@ -84,7 +110,7 @@ export default {
           uploadForm.append('sex', this.sex);
           uploadForm.append('username', this.username);
           uploadForm.append('phoneNumber',this.phoneNumber)
-           uploadForm.append('location',this.location)
+          uploadForm.append('location',this.location)
           uploadForm.append('email',this.email)
           uploadForm.append('introduction',this.introduction)
           this.$api.saveUserInfo(
@@ -114,7 +140,8 @@ export default {
         width: 800px;
         padding: 50px;
         font-size: 20px;
-        background-color: #ffff
+        background-color: #ffff;
+        margin: auto;
     }
     .avatar-button{
         margin: 0 0 0 auto;
@@ -145,6 +172,6 @@ export default {
         font-size: 13px;
         border-color: #6cbd45;
         color: #6cbd45;
-        margin: 0 0 0 auto;
+        margin: auto;
     }
 </style>

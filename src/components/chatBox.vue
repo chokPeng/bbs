@@ -7,14 +7,14 @@
                 <div class="message-wrraper">
                     <div class="opposite" v-if="oppositeUser.userId==item.senderId">
                         <div>
-                            <router-link target="_blank" :to="'/user/'+oppositeUser.userId">
+                            <router-link target="_blank" :to="'/user/'+oppositeUser.userId+'/active'">
                                 <img :src="oppositeUser.avatar|addImagePrefix" style="width:45px; height:45px; border-radius:50%; margin-right:10px;">
                             </router-link>
                         </div>
                         <div class="content"><span>{{item.content}}</span></div>
                     </div>
                     <div class="login-user-site" v-else>
-                        <router-link target="_blank" :to="'/user/'+$store.state.userId">
+                        <router-link target="_blank" :to="'/user/'+$store.state.userId+'/active'">
                                 <img :src="$store.state.avatar|addImagePrefix" style="width:45px; height:45px; border-radius:50%; margin-right:10px;">
                         </router-link>
                         <div class="content"><span>{{item.content}}</span></div>
@@ -51,6 +51,14 @@ export default {
     },
     methods:{
         savePrivateMessage(){
+            if(this.content==''){
+                this.$message({
+                showClose: true,
+                message: '内容不能为空',
+                type: 'error'
+                });
+                return ;
+            }
             this.$api.savePrivateMessage({
                 senderId:this.$store.state.userId,
                 receiverId:this.oppositeUser.userId,

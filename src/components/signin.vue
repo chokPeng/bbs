@@ -20,9 +20,9 @@ export default {
                 username:this.userId,
                 password:this.password
             }).then((res)=>{
-                this.$store.commit('storeNameAndAvatar',{
+                this.$store.commit('storeIdAndNumberAndAvatar',{
                     userId:res.data.userId,
-                    username:res.data.username,
+                    userNumber:res.data.userNumber,
                     avatar:res.data.avatar
                 })
                 this.$router.push('/home')
@@ -37,6 +37,6 @@ export default {
         margin-top: 30px;
         height: 36px;
         margin-left: 150px;
-        background-color: #0084ff
+        background-color:#fff;
     }
 </style>

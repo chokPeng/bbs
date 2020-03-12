@@ -29,7 +29,7 @@
                             </router-link>
                         </el-col>
                         <el-col :span="12" class="el-col">
-                            <router-link :to="'/user/'+$store.state.userId">
+                            <router-link :to="'/user/'+$store.state.userId+'/active'">
                                 <img :src="userDetailImg" style="width:30px;height:30px">
                                 <div class="action-name">我的主页</div>
                             </router-link>
@@ -68,11 +68,12 @@ export default {
         this.getAllPosts()
         this.getFollowingList()
         this.getUserSquareLikeList()
-        this.getCollectionList()
+        this.getCollectedPostIdListList()
     },
     methods: {
         getAllPosts(){
             this.$api.getAllPosts().then((res)=>{
+                window.console.log("posts:")
                 window.console.log(res)
                 this.postList=res.data.data
             }).catch((error)=>{
@@ -99,14 +100,16 @@ export default {
                 })
             })
         },
-        getCollectionList(){
-            this.$api.getCollection({
+        getCollectedPostIdListList(){
+            this.$api.getCollectedPostIdList({
                 collectorId:this.$store.state.userId
             }).then((res)=>{
                 window.console.log(res.data.data)
                 this.$store.commit('storeCollectionList',{
                     collectionList:res.data.data
                 })
+                window.console.log("co:")
+                window.console.log(this.$store.state.collectionList)
             })
         }
         

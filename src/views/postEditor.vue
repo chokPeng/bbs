@@ -73,6 +73,30 @@ export default {
             })
         },
         savePost(){
+          if(this.title==''){
+                this.$message({
+                showClose: true,
+                message: '标题不能为空',
+                type: 'error'
+                });
+                return ;
+          }
+          if(this.topic==''){
+                this.$message({
+                showClose: true,
+                message: '主题不能为空',
+                type: 'error'
+                });
+                return ;
+          }
+        if(this.topic==''){
+                this.$message({
+                showClose: true,
+                message: '帖子内容不能为空',
+                type: 'error'
+                });
+                return ;
+          }
           this.$api.savePost({
               posterId:this.$store.state.userId,
               title:this.title,

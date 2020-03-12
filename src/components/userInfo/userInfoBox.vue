@@ -1,10 +1,10 @@
 <template>
     <div class="user-info-box">
-       <router-link target="_blank" :to="'/user/'+user.userId">
+       <router-link target="_blank" :to="'/user/'+user.userId+'/active'">
             <img :src="user.avatar|addImagePrefix" style="width:45px; height:45px; border-radius:50%; margin-right:10px;">
        </router-link>
         <div class="information">
-            <router-link target="_blank" :to="'/user/'+user.userId"><span>{{user.username}}</span></router-link>
+            <router-link target="_blank" :to="'/user/'+user.userId+'/active'"><span>{{user.username}}</span></router-link>
             <div class="introduction"><span>{{user.introduction}}</span></div>
         </div>
         <div v-if="!isLoginUser" class="follow-action">
@@ -73,7 +73,9 @@ export default {
                 this.$store.commit('storeFollowingList',{
                     followingList:res.data.data
                 })
-                this.$router.push(0)
+                window.console.log(this.$store.state.followingList)
+                this.isFollow=true
+                //this.$router.push(0)
             })
         },
         unfollow(){
@@ -90,7 +92,9 @@ export default {
                 this.$store.commit('storeFollowingList',{
                     followingList:res.data.data
                 })
-                this.$router.push(0)
+                window.console.log(this.$store.state.followingList)
+                this.isFollow=false
+                //this.$router.push(0)
             })
         },
     },
@@ -103,6 +107,7 @@ export default {
     padding: 1rem 2rem 0rem 1rem;
     flex-direction: row;
     position: relative;
+    border-bottom: 1px solid rgba(178,186,194,.15);
 }
 .button{
     margin: 0 0 0 auto;

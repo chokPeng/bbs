@@ -1,9 +1,9 @@
 <template>
-    <div  class="userInfoWall">
+    <div  class="userInfoWall" v-if="!(JSON.stringify(this.user)==='{}')">
         <div class="text">
             <img :src="user.avatar|addImagePrefix" style="width:60px; height:60px; border-radius:50%;">
             <div class="information">
-                <router-link :to="'/home/'">
+                <router-link :to="'/user/'+user.userId+'/active'">
                     <span>{{user.username}}</span>
                 </router-link>
                 <div class="introduction">

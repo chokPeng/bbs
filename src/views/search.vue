@@ -54,6 +54,14 @@ export default {
     },
     methods:{
         search(keyword){
+            if(this.keyword==''){
+                this.$message({
+                showClose: true,
+                message: '关键字不能为空',
+                type: 'error'
+                });
+                return ;
+            }
             window.console.log(keyword)
             this.$api.search({
                 keyword:keyword

@@ -5,14 +5,16 @@ Vue.use(Vuex)
 const state={
     userId:'',
     avatar:'',
+    userNumber:'',
     followingList:[],
     squareLikeList:[],
     collectionList:[]
 }
 const mutations={
-    storeNameAndAvatar(state,payload){
+    storeIdAndNumberAndAvatar(state,payload){
         state.userId=payload.userId,
-        state.avatar=payload.avatar
+        state.avatar=payload.avatar,
+        state.userNumber=payload.userNumber
     },
     storeFollowingList(state,payload){
         state.followingList=payload.followingList

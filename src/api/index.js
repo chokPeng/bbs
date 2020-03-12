@@ -86,9 +86,8 @@ let config = {
     } 
 }
 export default {
-    getSquare:(data)=>axios.get(`/square`,{params:{
-        topic:data}
-    }),
+    getSquare:(data)=>axios.get(`/square`,{params:{topic:data}}),
+    getSquareById:(data)=>axios.get(`square/${data}`),
     getPostTopic:()=>axios.get(`/post/topic`),
     getPostId:(data)=>axios.post(`/post/drafts`,qs.stringify(data)),
     getPost: (data) => axios.get(`/post/${data}`),
@@ -120,18 +119,19 @@ export default {
     savePrivateMessage:(data)=>axios.post(`/privateMessage`,qs.stringify(data)),
     getAllPrivateMessage:(data)=>axios.get(`/privateMessage/all`,{params:data}),
     search:(data)=>axios.get(`/search`,{params:data}),
-    getOnlineUser:()=>axios.get(`onlineUser`),
-    isUserOnline:(data)=>axios.get(`isOnline`,{params:data}),    //判断用户是否在线
-    savePostLike:(data)=>axios.post(`postLike`,qs.stringify(data)),
-    saveSquareLike:(data)=>axios.post(`square/Like`,qs.stringify(data)),
-    deleteSquareLike:(data)=>axios.delete(`square/Like`,{params:data}),
-    deletePostLike:(data)=>axios.delete(`postLike`,{params:data}),
-    getPostLike:(data)=>axios.get(`postLike`,{params:data}),
-    deletePost:(data)=>axios.delete(`post`,{params:data}),
-    deleteSquare:(data)=>axios.delete(`square`,{params:data}),
+    getOnlineUser:()=>axios.get(`/onlineUser`),
+    isUserOnline:(data)=>axios.get(`/isOnline`,{params:data}),    //判断用户是否在线
+    savePostLike:(data)=>axios.post(`/postLike`,qs.stringify(data)),
+    saveSquareLike:(data)=>axios.post(`/square/like`,qs.stringify(data)),
+    deleteSquareLike:(data)=>axios.delete(`/square/like`,{params:data}),
+    deletePostLike:(data)=>axios.delete(`/postLike`,{params:data}),
+    getPostLike:(data)=>axios.get(`/postLike`,{params:data}),
+    deletePost:(data)=>axios.delete(`/post`,{params:data}),
+    deleteSquare:(data)=>axios.delete(`/square/${data}`),
     isUserLike:(data)=>axios.get(`isUserLike`,{params:data}),
     getUserSquareLikeList:(data)=>axios.get(`/square/like`,{params:data}),
     saveCollection:(data)=>axios.post(`/collection`,qs.stringify(data)),
     deleteCollection:(data)=>axios.delete(`/collection`,{params:data}),
-    getCollection:(data)=>axios.get(`/collection`,{params:data})
+    getCollection:(data)=>axios.get(`/collection`,{params:data}),
+    getCollectedPostIdList:(data)=>axios.get(`/collection/postIdList`,{params:data})
 }

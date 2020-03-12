@@ -66,7 +66,7 @@ export default {
           window.console.log(this.isShowTopicSelect)
       },
        selectPicture(){
-         //this.$refs.file.click();
+         this.$refs.file.click();
          window.console.log(this.$refs)
        },
        changeMultipleFiles(e) {
@@ -80,7 +80,14 @@ export default {
             this.$refs.file.value = null;
         },
       saveSquare(){
-          window.console.log("dddd")
+          if(this.content==''){
+                this.$message({
+                showClose: true,
+                message: '内容不能为空',
+                type: 'error'
+                });
+                return ;
+          }
            const uploadForm=new FormData();
           for(let i=0,length=this.file.length;i<length;i++){
                 uploadForm.append('file',this.file[i])
