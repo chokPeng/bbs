@@ -1,5 +1,5 @@
 <template>
-<div>
+<div style="height:100%">
     <navigationHeader></navigationHeader>
     <div class="main-container" v-if="JSON.stringify(post)!='{}'">
         <div class="article-suspended-panel">
@@ -221,7 +221,7 @@ export default {
         background: #fff;
     }
     .main-area{
-        width: 700px;
+      
         padding: 20px;
     }
     .header{

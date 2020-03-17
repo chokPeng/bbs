@@ -16,6 +16,22 @@ export default {
     },
     methods:{
         signin(){
+            if(this.userId==''){
+                this.$message({
+                showClose: true,
+                message: '账号不能为空',
+                type: 'error'
+                });
+                return ;
+            }
+            if(this.password==''){
+                this.$message({
+                showClose: true,
+                message: '密码不能为空',
+                type: 'error'
+                });
+                return ;
+            }
             this.$api.signin({
                 username:this.userId,
                 password:this.password

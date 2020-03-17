@@ -11,7 +11,7 @@
                             :value="item">
                         </el-option>
             </el-select>
-            <div class="editor">
+            <div>
                 <quill-editor 
                 v-model="content"
                 :options="editorOption">
@@ -39,7 +39,9 @@ export default {
                 [{ 'size': ['small', false, 'large'] }],
                 ['bold', 'italic'],
                 [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                ['link', 'image']
+                ['link', 'image'],
+                [{'align': []}],
+                [{ 'indent': '-1'}, { 'indent': '+1' }], 
                 ],
                 history: {
                 delay: 1000,

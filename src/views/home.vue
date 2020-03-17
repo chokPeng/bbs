@@ -36,12 +36,13 @@
                         </el-col>
                     </el-row>
                 </div>
-                <div class="active-user">
-                    <div style="text-align:center">
-                        <span>活跃用户</span>
-                    </div>
-                    <el-col>
-                    </el-col>
+                <div>
+                    <span class="notification">关于作者</span>
+                    <ul class="acount-list">
+                        <li><a href ="https://weibo.com/u/5140101806" target="view_window"><img :src="sinaLogo" class="logo-item"></a></li>
+                        <li><a href="https://github.com/chokPeng" target="view_window"><img :src="githubLogo" class="logo-item"></a></li>
+                        <li><a href="https://juejin.im/user/5ca8b654518825664912cf42" target="view_window"><img :src="juejinLogo" class="logo-item"></a></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -58,7 +59,10 @@ export default {
             postList:[],
             userDetailImg:require('../assets/userDetail.png'),
             postEditImg:require('../assets/postEdit.png'),
-            onlineUserNumber:Int16Array
+            onlineUserNumber:Int16Array,
+            sinaLogo:require('../assets/sina.png'),
+            juejinLogo:require('../assets/juejin.png'),
+            githubLogo:require('../assets/github.png'),
         };
     },
     components:{
@@ -193,5 +197,21 @@ export default {
     .action-name{
         color: #444;
         font-size: 16px;
+    }
+    .notification{
+        text-align: center;
+        color: #909090;
+        font-size:12px;
+    }
+    .acount-list{
+        display: flex;
+        justify-content: center;
+        margin: 1rem 0;
+    }
+    .logo-item{
+        width: 24px;
+        margin-left: .5rem;
+        margin-right: .5rem;
+        cursor: pointer;
     }
 </style>
