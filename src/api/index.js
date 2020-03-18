@@ -2,7 +2,7 @@ import axios from "axios";
 import router  from '@/router/router.js';
 import qs from 'qs'
 import store from '@/vuex/store.js'
-axios.defaults.baseURL = 'http://localhost:8090';
+axios.defaults.baseURL='http://localhost:8090'
 axios.interceptors.request.use(function (config) {
     let url = config.url;
     if (url!='/login'&&url!='/post') {
@@ -114,7 +114,7 @@ export default {
     getActive:(data)=>axios.get(`/active/${data}`),
     getTopic:(data)=>axios.get(`/topic/${data}`),
     saveUserInfo:(data)=>axios.post(`/user`,data,config),
-    signup:(data)=>axios.put(`/user`,data),
+    signup:(data)=>axios.put(`/user/register`,data),
     getPrivateMessage:(data)=>axios.get(`/privateMessage`,{params:data}),
     savePrivateMessage:(data)=>axios.post(`/privateMessage`,qs.stringify(data)),
     getAllPrivateMessage:(data)=>axios.get(`/privateMessage/all`,{params:data}),

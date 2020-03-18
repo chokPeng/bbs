@@ -69,7 +69,7 @@ export default {
         showReply(key){
             if(this.commentList[key].isReply){
                 this.$set(this.commentList[key],'isReply',false)
-                window.console.log(this.commentList[key].isReply)
+               // window.console.log(this.commentList[key].isReply)
             }
            else{
                 this.$set(this.commentList[key],'isReply',true)
@@ -98,7 +98,7 @@ export default {
             
             }else{
                 this.$set(this.commentList[key].commentReply[index],'isReplyReply',true)
-                window.console.log(this.commentList[key].commentReply[index].isReplyReply)
+                //window.console.log(this.commentList[key].commentReply[index].isReplyReply)
             }
         },
         submitPostCommentReplyReply(commentId,commenterId){

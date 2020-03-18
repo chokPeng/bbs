@@ -66,7 +66,6 @@ export default {
             this.$api.search({
                 keyword:keyword
             }).then((res)=>{
-                window.console.log(res.data)
                 this.userList=res.data.data.userList,
                 this.postList=res.data.data.postList
             })

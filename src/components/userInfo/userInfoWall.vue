@@ -1,4 +1,5 @@
 <template>
+<div>
     <div  class="userInfoWall" v-if="!(JSON.stringify(this.user)==='{}')">
         <div class="text">
             <img :src="user.avatar|addImagePrefix" style="width:60px; height:60px; border-radius:50%;">
@@ -17,58 +18,27 @@
                 <button @click="showChatBox" class="button">发私信</button>
             </div>
         </div>
-        <!--对话框-->
-        <div class="chat-box" v-if="isShowCheckBox">
-            <div class="receiver-name">
-                {{user.username}}
-            </div>
-            <div class="message-body" v-for="(item,key) in privateMessageList" :key="key">
-                <div class="message-wrraper">
-                    <div class="opposite" v-if="user.userId==item.senderId">
-                        <div>
-                            <router-link target="_blank" :to="'/user/'+user.userId">
-                                <img :src="user.avatar|addImagePrefix" style="width:45px; height:45px; border-radius:50%; margin-right:10px;">
-                            </router-link>
-                        </div>
-                        <div class="content"><span>{{item.content}}</span></div>
-                        <!-- <div class="time">{{item.time|changeTime}}</div> -->
-                    </div>
-                    <div class="login-user-site" v-else>
-                        <router-link target="_blank" :to="'/user/'+$store.state.userId">
-                                <img :src="$store.state.avatar|addImagePrefix" style="width:45px; height:45px; border-radius:50%; margin-right:10px;">
-                        </router-link>
-                        <div class="content"><span>{{item.content}}</span></div>
-                    </div>
-                    <div class="time"><span>{{item.sendingTime|changeTime}}</span></div>
-                </div>
-                  
-            </div>
-            <div class="input">
-                    <el-input
-                            type="textarea"
-                            :rows="4"
-                            placeholder="请输入内容"
-                            v-model="content"
-                            maxlength="300"
-                            show-word-limit
-                            >
-                    </el-input>
-                <button class="send-button" @click="savePrivateMessage">发送</button>
-            </div>
-        </div>
     </div>
-    
+    <!--对话框-->
+    <el-dialog :visible.sync="dialogVisible" append-to-body>
+        <chatBox :oppositeUser="user"></chatBox>
+    </el-dialog>
+</div>
 </template>
 <script>
+import ChatBox from '../chatBox'
 export default {
     name:'userInfoWall',
     props:{
         user:Object
     },
+    components:{
+        'chatBox':ChatBox
+    },
     data(){
         return{
+            dialogVisible:false,
             isFollow:'',
-            isShowCheckBox:false,
             privateMessageList:[],
             userAvatar:'',//not currentUser's avatar
             content:'',
@@ -127,39 +97,8 @@ export default {
             this.$router.push(`/profile`)
         },
         showChatBox(){
-            this.isShowCheckBox=!this.isShowCheckBox
-            window.console.log(this.isShowCheckBox)
-            if(this.isShowCheckBox==true){
-                this.getPrivateMessage()
-            }
+            this.dialogVisible=true
         },
-        getPrivateMessage(){
-            window.console.log(this.user.userId)
-            window.console.log(this.$store.state.userId)
-            this.$api.getPrivateMessage({
-                senderId:this.$store.state.userId,
-                receiverId:this.user.userId
-            }).then((res)=>{
-                this.privateMessageList=res.data.data.privateMessageList,
-                window.console.log(this.user)
-                //this.userAvatar
-                window.console.log(res.data.data)
-            })
-        },
-        savePrivateMessage(){
-            this.$api.savePrivateMessage({
-                senderId:this.$store.state.userId,
-                receiverId:this.user.userId,
-                content:this.content
-            }).then(()=>{
-                this.$message({
-                showClose: true,
-                message: '发送成功',
-                type: 'success'
-                });
-                this.$router.go(0)
-            })
-        }
     }
 }
 </script>

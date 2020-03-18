@@ -17,15 +17,11 @@ export default {
         }
     },
     mounted(){
-        window.console.log(this.$route.params.userId)
-        // this.getMyFollowerList(this.$route.params.userId)
         this.getFollowers(this.$route.params.userId)
     },
     methods:{
         getFollowers(userId){
             this.$api.getFollowees(userId).then((res)=>{
-                // window.console.log("myFollowingList")
-                // window.console.log(res.data.data)
                 this.myFollowingList=res.data.data
                 this.getMyFollowerList(userId)
             })

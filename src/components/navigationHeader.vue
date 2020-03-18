@@ -21,7 +21,21 @@
                 <div ><img :src="notificationFilledImage" style="width:25px;height:25px"></div>
             </el-col>
             <el-col :span="2" class="el-col">
-                <div @click="showMessage"><img :src="messageImage" style="width:25px;height:25px"></div>
+                <div @click="showMessage" >
+                    <img :src="messageImage" style="width:25px;height:25px">
+                        <div  class="privateMessageBar" v-if="isShowMessage">
+                            <span class="arrow"></span>
+                            <div style="text-align:center">我的私信</div>
+                            <div v-for="(item,key) in allMessageList" :key="key" class="privateMessageList">
+                                <div @click="showChatBox(key)">
+                                    <img :src="item.oppositeUser.avatar|addImagePrefix" style="width:30px;height:30px"/>
+                                    <span class="username">{{item.oppositeUser.username}}</span>
+                                    <span>:</span>
+                                    <span class="content">{{item.privateMessageList[item.privateMessageList.length-1].content}}</span>
+                                </div>
+                            </div>
+                        </div>
+                </div>
             </el-col>
             <el-col :span="2" class="el-col">
                 <div>
@@ -37,23 +51,9 @@
                     <li @click="signout">登出</li>
                 </ul>
                 <div v-if="allMessageList!=''" class="chat">
-                    <el-dialog :visible.sync="dialogVisible" width="40%">
-                        <chatBox :oppositeUser="oppositeUser" :privateMessageList="privateMessageList"></chatBox>
+                    <el-dialog :visible.sync="dialogVisible" append-to-body>
+                        <chatBox :oppositeUser="oppositeUser"></chatBox>
                     </el-dialog>
-                </div>
-                <div v-if="isShowMessage">
-                    <div  class="privateMessageBar">
-                        <span class="arrow"></span>
-                        <div style="text-align:center">我的私信</div>
-                        <div v-for="(item,key) in allMessageList" :key="key" class="privateMessageList">
-                            <div @click="showChatBox(key)">
-                                <img :src="item.oppositeUser.avatar|addImagePrefix" style="width:30px;height:30px"/>
-                                <span class="username">{{item.oppositeUser.username}}</span>
-                                <span>:</span>
-                                <span class="content">{{item.privateMessageList[item.privateMessageList.length-1].content}}</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </el-col>
             <el-col :span="2" class="el-col">
@@ -107,17 +107,12 @@ export default {
                 userId:this.$store.state.userId
             }).then((res)=>{
                 this.allMessageList=res.data.data
-                window.console.log(res.data.data)
-                window.console.log(this.allMessageList.length-1)
             })
         },
         showChatBox(key){
             this.dialogVisible=true,
             this.privateMessageList=this.allMessageList[key].privateMessageList,
-            this.oppositeUser=this.allMessageList[key].oppositeUser,
-            window.console.log(key)
-            window.console.log(this.oppositeUser)
-            window.console.log(this.privateMessageList)
+            this.oppositeUser=this.allMessageList[key].oppositeUser
         },
         savePrivateMessage(){
             this.$api.savePrivateMessage({
@@ -135,15 +130,12 @@ export default {
         },
         sendKeywordToSearch(){
             this.$emit("search",this.keyword)
-            window.console.log(this.$route.path)
             if(!(this.$route.path=="/search")){
-                window.console.log("aaa")
                 this.$router.push({ name: 'search', params:{keyword:this.keyword}})
             }
         },
         getOnlineUser(){
             this.$api.getOnlineUser().then((res)=>{
-                window.console.log(res.data.data)
                 this.currentOnlineUserNumber=res.data.data
             })
         }
@@ -181,14 +173,15 @@ export default {
     margin-top:20px;
      position: absolute;
      z-index:20;
-     /* top:10px;*/
-     right:220px;
+     top:12px;
+     right:180px;
      width:360px;
      display: flex;
      flex-direction: column;
  }
  .privateMessageList{
      border-top: 1px solid #ebebeb;
+     
  }
  .arrow{
     margin:auto; 
@@ -208,6 +201,16 @@ export default {
  .chat /deep/ .el-dialog__header{
     padding: 0px;
  }
+ .message{
+     position: relative;
+ }
+ /* .chatbox{
+     position: absolute;
+     right: 50%;
+     top:50%;
+     background-color: #fff;
+     width: 500px;
+ } */
  /* .chat /deep/ .el-dialog__body{
     padding: 0px;
 } */

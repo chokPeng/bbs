@@ -35,7 +35,6 @@ export default {
     },
     methods:{
         isFollowing(){
-            window.console.log("jsss")
             for(var i=0,length=this.$store.state.followingList.length;i<length;i++){
                 if(this.$store.state.followingList[i].userId==this.user.userId){
                     return true
@@ -51,10 +50,8 @@ export default {
         showUserInfoWall(){
             if(this.isShowUserInfoWall==true){
                 this.isShowUserInfoWall=false
-                window.console.log("true到false")
             }else{
                 this.isShowUserInfoWall=true
-                window.console.log("false到true")
             }
             
         },
@@ -73,9 +70,7 @@ export default {
                 this.$store.commit('storeFollowingList',{
                     followingList:res.data.data
                 })
-                window.console.log(this.$store.state.followingList)
                 this.isFollow=true
-                //this.$router.push(0)
             })
         },
         unfollow(){
@@ -92,9 +87,7 @@ export default {
                 this.$store.commit('storeFollowingList',{
                     followingList:res.data.data
                 })
-                window.console.log(this.$store.state.followingList)
                 this.isFollow=false
-                //this.$router.push(0)
             })
         },
     },

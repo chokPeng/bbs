@@ -77,11 +77,8 @@ export default {
     methods: {
         getAllPosts(){
             this.$api.getAllPosts().then((res)=>{
-                window.console.log("posts:")
-                window.console.log(res)
                 this.postList=res.data.data
             }).catch((error)=>{
-                window.console.log(error.response)
                 if(error.response.status==401){
                     this.$router.push('/login')
                 }
@@ -98,7 +95,6 @@ export default {
             this.$api.getUserSquareLikeList({
                 userId:this.$store.state.userId
             }).then((res)=>{
-                window.console.log(res.data)
                 this.$store.commit('storeSquareLikeList',{
                     squareLikeList:res.data.data
                 })
@@ -108,12 +104,9 @@ export default {
             this.$api.getCollectedPostIdList({
                 collectorId:this.$store.state.userId
             }).then((res)=>{
-                window.console.log(res.data.data)
                 this.$store.commit('storeCollectionList',{
                     collectionList:res.data.data
                 })
-                window.console.log("co:")
-                window.console.log(this.$store.state.collectionList)
             })
         }
         

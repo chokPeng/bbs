@@ -11,16 +11,6 @@
     </div>
 </div>
 </template>
-<script>
-export default{
-    data(){
-        return{
-            username: '13229443974',
-            password: 'user',
-        } 
-    },
-}
-</script>
 <style scoped>
     .container{
         height: 100%;

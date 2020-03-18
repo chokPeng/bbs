@@ -38,7 +38,6 @@ export default {
             this.$api.getCollection({
                 collectorId:userId
             }).then((res)=>{
-                window.console.log(res.data.data)
                 this.collectionList=res.data.data
             })
         }

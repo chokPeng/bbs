@@ -18,7 +18,6 @@ import Collection from '../components/collection.vue'
 import SquareDetail from '../views/squareDetail.vue'
 Vue.use(VueRouter)
 export default new VueRouter({
-    mode: 'history',
     routes:[
         {path:'/login', name: 'hello',component:Login,
             children:[

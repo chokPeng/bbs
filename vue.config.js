@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 module.exports = {
-    publicPath:'/',
+    publicPath:'./',
     chainWebpack: config => {
         config.plugin('provide').use(webpack.ProvidePlugin, [{
             'window.Quill': 'quill/dist/quill.js',

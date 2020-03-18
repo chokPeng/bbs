@@ -1,6 +1,6 @@
 <template>
 <div>
-    <el-input placeholder="请输入账号/手机号" v-model="userId" ></el-input>
+    <el-input placeholder="请输入账号/手机号" v-model="userId" validate-event minlength="11" maxlength="11" show-word-limit></el-input>
     <el-input placeholder="请输入密码" v-model="password" show-password></el-input>
     <button  class="signin-button" v-on:click="signin">登录</button>
 </div>

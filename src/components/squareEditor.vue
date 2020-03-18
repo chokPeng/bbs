@@ -63,20 +63,20 @@ export default {
   methods:{
       showTopicSelect(){
           this.isShowTopicSelect=!this.isShowTopicSelect;
-          window.console.log(this.isShowTopicSelect)
+          //window.console.log(this.isShowTopicSelect)
       },
        selectPicture(){
          this.$refs.file.click();
-         window.console.log(this.$refs)
+         //window.console.log(this.$refs)
        },
        changeMultipleFiles(e) {
-           window.console.log(e)
+           //window.console.log(e)
             this.file = [...e.target.files]
-            window.console.log(this.file)
+           // window.console.log(this.file)
             for(let i=0,length=this.file.length;i<length;i++){
                 this.fileList.push(this.getFileUrl(this.file[i]))
             }
-            window.console.log(this.$refs.file.value)
+           // window.console.log(this.$refs.file.value)
             this.$refs.file.value = null;
         },
       saveSquare(){
@@ -95,7 +95,7 @@ export default {
           uploadForm.append('content', this.content);
           uploadForm.append('posterId', this.$store.state.userId);
           uploadForm.append('topic',this.topic)
-          this.$api.saveSquare(uploadForm).then((res)=>{
+          this.$api.saveSquare(uploadForm).then(()=>{
               this.$message({
                 showClose: true,
                 message: '发表成功',
@@ -103,7 +103,7 @@ export default {
               });
               this.$router.go(0)
               //this.$router.push('/Square')
-              window.console.log(res.data)
+              //window.console.log(res.data)
           })
       },
       getFileUrl(file) {

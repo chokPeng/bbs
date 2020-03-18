@@ -74,7 +74,6 @@ export default {
                 userNumber:this.$store.state.userNumber,
                 id:this.post.id
             }).then((res)=>{
-                window.console.log(res.data.data)
                 //返回结果为1,证明用户已经点过赞了
                 if(res.data.data==1){
                     this.isLike=true
@@ -86,7 +85,6 @@ export default {
         isCollected(){
             for(let i=0,length=this.$store.state.collectionList.length;i<length;i++){
                 if(this.post.id==this.$store.state.collectionList[i]){
-                    window.console.log("ssssssaaaa")
                     this.collectImg=require('../assets/collectFilled.png')
                     break;
                 }
@@ -97,7 +95,6 @@ export default {
             this.$api.deletePost({
                 postId:this.post.id
             }).then((res)=>{
-                window.console.log(res.data.data)
                 if(res.data.code==1){
                     this.$message({
                         showClose: true,
@@ -112,14 +109,12 @@ export default {
             this.$api.getPostLike({
                 postId:postId
             }).then((res)=>{
-                window.console.log(res.data.data)
                 this.likeNum=res.data.data
             })
         },
          showReply(key){
             if(this.post.comment[key].isReply){
                 this.$set(this.post.comment[key],'isReply',false)
-                window.console.log(this.post.comment[key].isReply)
             }
            else{
                 this.$set(this.post.comment[key],'isReply',true)
@@ -137,7 +132,6 @@ export default {
         /*以上为comment.vue 的方法*/
         getPost(id){
                 this.$api.getPost(id).then((res)=>{
-                    window.console.log(res.data.data)
                     this.post=res.data.data
                     this.isUserLike()
                     this.isCollected()
@@ -150,8 +144,6 @@ export default {
                     userId:this.$store.state.userId,
                     userNumber:this.$store.state.userNumber,
                     postId:this.post.id
-                }).then((res)=>{
-                    window.console.log(res.data.data)
                 })
                 this.likeNum++;
             }else{
@@ -160,8 +152,6 @@ export default {
                     postId:this.post.id,
                     userId:this.$store.state.userId,
                     userNumber:this.$store.state.userNumber
-                }).then((res)=>{
-                    window.console.log(res.data.data)
                 })
                 this.likeNum--;
             }
@@ -217,8 +207,9 @@ export default {
         display: flex;
         flex-direction: row;
         border:1px solid cornsilk;
-        width: 960px;
+        width: 800px;
         background: #fff;
+        height: 100%;
     }
     .main-area{
       

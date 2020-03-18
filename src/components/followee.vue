@@ -21,10 +21,8 @@ export default {
     methods:{
         getFollowees(userId){
             this.$api.getFollowees(userId).then((res)=>{
-                window.console.log(res.data)
                 this.followeeList=res.data.data
                 for(var j = 0,len=this.followeeList.length;j<len; j++) {
-                    window.console.log("dssaadwr")
                     this.$set(this.followeeList[j],'isFollow',true)
                 }
             })

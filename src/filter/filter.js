@@ -11,16 +11,15 @@ const filters={
         })
     },
     addImagePrefix:function(image){
-        return "http://localhost:8090/image/"+image;
+        return "http://www.robben.fun:8090/image/"+image;
     },
     getUserAvatarById:function(userId){
-        return "http://localhost:8090/image/"+userId+".jpg"
+        return "http://www.robben.fun:8090/image/"+userId+".jpg"
     },
     changePlaceholder:function(placeholder){
         window.console.log("placeholder:")
         window.console.log(placeholder)
         if(placeholder==''){
-            window.console.log("aaaaawdwwd")
             return "请输入内容"
         }
         return placeholder;

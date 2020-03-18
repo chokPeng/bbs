@@ -61,13 +61,11 @@ export default {
             this.$api.getActive(
                 userId
             ).then((res)=>{
-                window.console.log(res.data.data)
                 this.activeList=res.data.data
                 this.setTypeForActiveList()
             })
         },
         setTypeForActiveList(){
-            window.console.log(this.activeList.length)
             for(let i=0,length=this.activeList.length;i<length;i++){
                 switch(this.activeList[i].action){
                     case "关注了":
@@ -133,7 +131,6 @@ export default {
     }
     .metal-infomation{
         font: 10px grey;
-    
     }
  .square-content{
         font-size: 15px;

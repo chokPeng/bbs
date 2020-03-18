@@ -51,7 +51,18 @@ export default {
                 password:this.password,
                 phoneNumber:this.phoneNumber
             }).then(()=>{
-                this.$router.push(`home`)
+                //登录
+                    this.$api.signin({
+                        username:this.phoneNumber,
+                        password:this.password
+                    }).then((res)=>{
+                        this.$store.commit('storeIdAndNumberAndAvatar',{
+                            userId:res.data.userId,
+                            userNumber:res.data.userNumber,
+                            avatar:res.data.avatar
+                        })
+                        this.$router.push('/home')
+                    })
             })
         }
     }

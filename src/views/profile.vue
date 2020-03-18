@@ -103,7 +103,6 @@ export default {
                 });
                 return ;
             }
-          window.console.log("dddd")
           const uploadForm=new FormData();
           uploadForm.append('userId',this.$store.state.userId)
           uploadForm.append('avatarFile',this.avatar)
@@ -115,15 +114,13 @@ export default {
           uploadForm.append('introduction',this.introduction)
           this.$api.saveUserInfo(
               uploadForm
-          ).then((res)=>{
+          ).then(()=>{
               this.$message({
                 showClose: true,
                 message: '更新资料成功',
                 type: 'success'
               });
               this.$router.go(0)
-              //this.$router.push('/confessionWall')
-              window.console.log(res.data)
           })
       },
     },

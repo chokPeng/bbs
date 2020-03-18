@@ -42,14 +42,27 @@ export default {
     name:'chatBox',
     props:{
         oppositeUser:{},
-        privateMessageList:Array
     },
     data(){
         return{
+            privateMessageList:Array,
             content:''
         }
     },
+    mounted(){
+        window.console.log(this.oppositeUser)
+        this.getPrivateMessage()
+    },
     methods:{
+         getPrivateMessage(){
+            window.console.log(this.$store.state.userId)
+            this.$api.getPrivateMessage({
+                senderId:this.$store.state.userId,
+                receiverId:this.oppositeUser.userId
+            }).then((res)=>{
+                this.privateMessageList=res.data.data.privateMessageList
+            })
+        },
         savePrivateMessage(){
             if(this.content==''){
                 this.$message({
@@ -95,6 +108,10 @@ export default {
     }
     .content{
         text-align: center;
+        font-size: 18px;
+        color: black;
+        margin-left: 10px;
+        margin-right: 10px;
     }
     .input{
         position: relative;

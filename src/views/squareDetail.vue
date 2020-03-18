@@ -71,9 +71,7 @@ export default {
     methods:{
         isUserLike(){
             for(let j=0,length=this.$store.state.squareLikeList.length;j<length;j++){
-                window.console.log("dsddd")
                 if(this.square.id==this.$store.state.squareLikeList[j]){
-                    window.console.log(this.square.id)
                     this.isLike=true
                     this.likeImg=require('../assets/likeFilled.png')
                     break
@@ -82,7 +80,6 @@ export default {
         },
         deleteSquare(){
             this.$api.deleteSquare(this.square.id).then((res)=>{
-                window.console.log(res.data.data)
                 if(res.data.code==1){
                     this.$message({
                         showClose: true,
@@ -96,7 +93,6 @@ export default {
         showReply(key){
             if(this.post.comment[key].isReply){
                 this.$set(this.square.comment[key],'isReply',false)
-                window.console.log(this.square.comment[key].isReply)
             }
            else{
                 this.$set(this.squarecomment[key],'isReply',true)
@@ -113,7 +109,6 @@ export default {
         },
         getSquareById(id){
                 this.$api.getSquareById(id).then((res)=>{
-                    window.console.log(res.data.data)
                     this.square=res.data.data
                     this.isUserLike()
             })
@@ -124,8 +119,6 @@ export default {
                 this.$api.saveSquareLike({
                     userId:this.$store.state.userId,
                     squareId:this.square.id
-                }).then((res)=>{
-                    window.console.log(res.data.data)
                 })
                 this.likeNum++;
             }else{
@@ -133,8 +126,6 @@ export default {
                 this.$api.deleteSquareLike({
                     squareId:this.square.id,
                     userId:this.$store.state.userId,
-                }).then((res)=>{
-                    window.console.log(res.data.data)
                 })
                 this.likeNum--;
             }
@@ -171,8 +162,9 @@ export default {
         display: flex;
         flex-direction: row;
         border:1px solid cornsilk;
-        width: 960px;
+        width: 800px;
         background: #fff;
+        height: 100%;
     }
     .main-area{
         width: 700px;
