@@ -99,7 +99,7 @@ export default {
     background: #fff;
     padding: 1rem 2rem 0rem 1rem;
     flex-direction: row;
-    position: relative;
+    position: relative; 
     border-bottom: 1px solid rgba(178,186,194,.15);
 }
 .button{
@@ -110,6 +110,7 @@ export default {
     font-size: 13px;
     border-color: #6cbd45;
     color: #6cbd45;
+    cursor:pointer
 }
 .information{
     vertical-align: middle;

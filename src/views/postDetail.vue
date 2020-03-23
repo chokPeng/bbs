@@ -4,17 +4,15 @@
     <div class="main-container" v-if="JSON.stringify(post)!='{}'">
         <div class="article-suspended-panel">
             <div @click="like">
-                <img :src="likeImg" style="width:50px;height:50px;"><span>{{likeNum}}</span>
+                <img :src="likeImg" style="width:50px;height:50px;cursor:pointer;"><span>{{likeNum}}</span>
             </div>
-            <div><img :src="commentImg" style="width:50px;height:50px;"><span v-if="post.comment.length!=0">{{post.comment.length}}</span></div>
-            <div @click="saveCollection"><img :src="collectImg" style="width:50px;height:50px;"></div>
+            <div><img :src="commentImg" style="width:50px;height:50px;cursor:pointer;"><span v-if="post.comment.length!=0">{{post.comment.length}}</span></div>
+            <div @click="saveCollection"><img :src="collectImg" style="width:50px;height:50px;cursor:pointer;"></div>
         </div>
         <div class="main-area">
             <div class="header">
                 <userInfoBox :user="post.poster"></userInfoBox>
-                <div v-if="post.poster.userId==$store.state.userId">
-                    <button @click="deletePost" class="delete-button">删除</button>
-                </div>
+                <button @click="deletePost" v-if="post.poster.userId==$store.state.userId" class="delete-button">删除</button>
             </div>
             <div class="post-title">
                 <span>{{post.title}}</span>
@@ -31,7 +29,7 @@
                 <input class="input" v-model="commentInput" placeholder="输入评论......">
                 <button @click="submitComment" class="button">评论</button>
             </div>
-            <comment :commentList="post.comment"></comment>
+            <comment v-if="post.comment" :commentList="post.comment"></comment>
         </div>
         
     </div>
@@ -132,6 +130,7 @@ export default {
         /*以上为comment.vue 的方法*/
         getPost(id){
                 this.$api.getPost(id).then((res)=>{
+                    window.console.log(res.data)
                     this.post=res.data.data
                     this.isUserLike()
                     this.isCollected()
@@ -209,15 +208,12 @@ export default {
         border:1px solid cornsilk;
         width: 800px;
         background: #fff;
-        height: 100%;
     }
     .main-area{
       
         padding: 20px;
     }
     .header{
-        display: flex;
-        flex-direction: row;
         position: relative;
     }
     .post-title{
@@ -264,6 +260,7 @@ export default {
         width: 50px;
         background-color: greenyellow;
         margin-left: 20px;
+        cursor:pointer;
     }
     /*以下为comment.vue 的 css*/
     .comment-title{
@@ -271,6 +268,9 @@ export default {
         font-size: 16px;
         text-align: center;
         padding: 10px;
+    }
+    .ss{
+        display: inline;
     }
     .delete-button{
         margin: 0 0 0 auto;
@@ -281,6 +281,7 @@ export default {
         border-color: #6cbd45;
         color: #6cbd45;
         position: absolute;
-        right:20px;
+        right:5px;
+        cursor:pointer;
     }
 </style>

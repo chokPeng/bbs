@@ -9,7 +9,6 @@ import UserDetail from '@/views/userDetail.vue'
 import Follower  from '../components/follower'
 import Followee from '../components/followee'
 import Active from '../components/active'
-import Edi from '../views/edi.vue'
 import Profile from '../views/profile.vue'
 import Signup from '../components/signup.vue'
 import Signin from '../components/signin.vue'
@@ -39,7 +38,6 @@ export default new VueRouter({
                 {path:'collection',component:Collection}
             ]
         },
-        {path:'/edi',name:'edi',component:Edi},
         {path:'/profile',name:'profile',component:Profile},
         {path:'/search',name:'search',component:Search}
     ]

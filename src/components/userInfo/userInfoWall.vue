@@ -135,6 +135,7 @@ export default {
         border-color: #6cbd45;
         color: #6cbd45;
         margin: 0 0 0 auto;
+        cursor:pointer
     }
     .follower-block{
         display: flex;
@@ -186,6 +187,7 @@ export default {
         position: absolute;
         right:20px;
         bottom: 1px;
+        cursor:pointer
     }
     .button{
         margin: 0 0 0 auto;
@@ -197,5 +199,6 @@ export default {
         color: #6cbd45;
         position: absolute;
         right: 20px;
+        cursor:pointer
     }
 </style>

@@ -18,11 +18,11 @@
                 <!-- </div> -->
             </el-col>
             <el-col :span="2" class="el-col">
-                <div ><img :src="notificationFilledImage" style="width:25px;height:25px"></div>
+                <div ><img :src="notificationFilledImage" style="width:25px;height:25px;cursor:pointer"></div>
             </el-col>
             <el-col :span="2" class="el-col">
                 <div @click="showMessage" >
-                    <img :src="messageImage" style="width:25px;height:25px">
+                    <img :src="messageImage" style="width:25px;height:25px;cursor:pointer">
                         <div  class="privateMessageBar" v-if="isShowMessage">
                             <span class="arrow"></span>
                             <div style="text-align:center">我的私信</div>
@@ -39,10 +39,7 @@
             </el-col>
             <el-col :span="2" class="el-col">
                 <div>
-                    <img :src="avatar|addImagePrefix" v-if="avatar" @click="showUserDropDownList()" style="width:30px;height:30px;border-radius:50%">
-                    <div v-else>
-                        <router-link :to="'/login'"><span>登录 注册</span></router-link>
-                    </div>
+                    <img :src="avatar|addImagePrefix" v-if="avatar" @click="showUserDropDownList()" style="width:30px;height:30px;border-radius:50%;cursor:pointer">
                 </div>
                 <ul v-if="isShowUserDropDownList" class="user-drop-down-list">
                     <router-link :to="'/user/'+userId+'/active'"><li>我的主页</li></router-link>

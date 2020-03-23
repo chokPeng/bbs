@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="container">
     <div class="comment-box" v-for="(comment,key) in commentList" :key="key">
         <commenterInfoBox :commenter="comment.commenter"></commenterInfoBox>
         <div class="content">
@@ -120,6 +120,9 @@ export default {
 }
 </script>
 <style scoped>
+.container{
+    background-color: #fff
+}
     .comment-input-box{
         display: flex;
         flex-direction: row;

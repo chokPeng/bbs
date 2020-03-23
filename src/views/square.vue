@@ -112,25 +112,27 @@ export default {
             //取消赞
             if(this.squareList[key].isLike){
                this.$set(this.squareList[key],'isLike',false)   //往squareList里添加一个属性isLike，js可以随意往对象中添加数据
-               this.squareList[key].like--;
-               this.deleteSquareLike(this.squareList[key].id)
+               this.$api.deleteSquareLike({
+                    squareId:this.squareList[key].id,
+                    userId:this.$store.state.userId
+                }).then((res=>{                                 //返回值为用户点赞的square的最新数据
+                    this.$store.commit('storeSquareLikeList',{
+                        squareLikeList:res.data.data
+                    })
+                }))
+                this.squareList[key].like--;
             }else{  // 点赞
                this.$set(this.squareList[key],'isLike',true)
-               this.addLike(this.squareList[key].id)
+               this.$api.saveSquareLike({
+                    squareId:this.squareList[key].id,
+                    userId:this.$store.state.userId
+                }).then((res)=>{
+                    this.$store.commit('storeSquareLikeList',{
+                        squareLikeList:res.data.data
+                    })
+                })
                this.squareList[key].like++
             }
-        },
-        addLike(squareId){
-            this.$api.saveSquareLike({
-                squareId:squareId,
-                userId:this.$store.state.userId
-            })
-        },
-        deleteSquareLike(squareId){
-            this.$api.deleteSquareLike({
-                squareId:squareId,
-                userId:this.$store.state.userId
-            })
         },
         showComment(key){
             //取消展示评论
@@ -209,7 +211,6 @@ export default {
         padding: 0 12px;
         border: 1px solid #007fff;
         border-radius: 14px;
-        /* text-align: center; */
         color: #007fff;
         user-select: none;
         

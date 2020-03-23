@@ -36,7 +36,7 @@
                 <input class="input" v-model="commentInput" placeholder="输入评论......">
                 <button @click="submitComment" class="button">评论</button>
             </div>
-            <comment :commentList="square.comment"></comment>
+            <comment :commentList="square.comments"></comment>
         </div>
     </div>
 </div>
@@ -117,17 +117,25 @@ export default {
             if(this.isLike==false){
                 this.likeImg=require('../assets/likeFilled.png')
                 this.$api.saveSquareLike({
-                    userId:this.$store.state.userId,
-                    squareId:this.square.id
+                    squareId:this.square.id,
+                    userId:this.$store.state.userId
+                }).then((res)=>{
+                    this.$store.commit('storeSquareLikeList',{
+                        squareLikeList:res.data.data
+                    })
                 })
-                this.likeNum++;
+                this.square.like++;
             }else{
                 this.likeImg=require('../assets/like.png')
                 this.$api.deleteSquareLike({
                     squareId:this.square.id,
-                    userId:this.$store.state.userId,
-                })
-                this.likeNum--;
+                    userId:this.$store.state.userId
+                }).then((res=>{
+                    this.$store.commit('storeSquareLikeList',{
+                        squareLikeList:res.data.data
+                    })
+                }))
+                this.square.like--;
             }
             this.isLike=!this.isLike;
         },
@@ -184,9 +192,7 @@ export default {
         top: 16rem;
     }
     .header{
-        display: flex;
-        flex-direction: row;
-        position: relative;
+        position: relative; 
     }
     .delete-button{
         margin: 0 0 0 auto;

@@ -115,6 +115,9 @@ export default {
           this.$api.saveUserInfo(
               uploadForm
           ).then(()=>{
+              this.$store.commit('storeIdAndNumberAndAvatar',{
+                    avatar:this.avatar
+                })
               this.$message({
                 showClose: true,
                 message: '更新资料成功',

@@ -133,10 +133,6 @@ export default {
 }
 </script>
 <style scoped>
-    ul{
-        list-style:none
-    }
-
     .editor{
         padding: 0rem 2rem 0;
         margin-bottom: 8px;
@@ -157,6 +153,7 @@ export default {
         position: absolute;
         right: 20px;
         background-color: #027fff;
+        cursor: pointer;
     }
     .editor-item{
         display: flex;
