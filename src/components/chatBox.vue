@@ -50,12 +50,10 @@ export default {
         }
     },
     mounted(){
-        window.console.log(this.oppositeUser)
         this.getPrivateMessage()
     },
     methods:{
          getPrivateMessage(){
-            window.console.log(this.$store.state.userId)
             this.$api.getPrivateMessage({
                 senderId:this.$store.state.userId,
                 receiverId:this.oppositeUser.userId

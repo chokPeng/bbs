@@ -16,6 +16,9 @@ const mutations={
         state.avatar=payload.avatar,
         state.userNumber=payload.userNumber
     },
+    storeAvatar(state,payload){
+        state.avatar=payload.avatar
+    },
     storeFollowingList(state,payload){
         state.followingList=payload.followingList
     },

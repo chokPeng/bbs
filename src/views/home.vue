@@ -1,5 +1,5 @@
 <template>
-<div>
+<div style="height:100%">
     <navigationHeader></navigationHeader>
     <div class="home">
         <div class="main">
@@ -85,6 +85,9 @@ export default {
             })
         },
         getFollowingList(){
+            window.console.log("ssss:")
+            window.console.log(this.$store.state)
+            window.console.log(this.$store.state.userId)
             this.$api.getFollowees(this.$store.state.userId).then((res)=>{
                  this.$store.commit('storeFollowingList',{
                     followingList:res.data.data

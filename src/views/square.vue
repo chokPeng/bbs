@@ -141,7 +141,6 @@ export default {
             }else{  // 显示评论
                 this.$set(this.squareList[key],'isShowComment',true)
             }
-            window.console.log(this.squareList[key].isShowComment)
         },
         submitComment(id){
             if(this.commentInput==''){

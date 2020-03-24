@@ -7,7 +7,7 @@
         <ul>
             <li>
                 <button @click="selectPicture" class="avatar-button">上传头像</button>
-                <input type="file" accept=".jpg" @change="changeMultipleFiles"  value="avatar" ref="file" style="display:none">
+                <input type="file" accept=".jpg,.jpeg,.png" @change="changeMultipleFiles"  value="avatar" ref="file" style="display:none">
             </li>
             <li>
                 <el-radio v-model="sex" label="男">男</el-radio>
@@ -45,7 +45,6 @@ export default {
     methods:{
         getUserInfo(){
             this.$api.getUserInfo(this.$store.state.userId).then((res)=>{
-                window.console.log(res.data.data)
                 this.sex=res.data.data.sex;
                 this.username=res.data.data.username;
                 this.phoneNumber=res.data.data.phoneNumber;
@@ -53,6 +52,7 @@ export default {
                 this.introduction=res.data.data.introduction;
                 this.email=res.data.data.email;
                 this.avatarShow="http://localhost:8090/image/"+res.data.data.avatar
+                //this.avatarShow="http://www.robben.fun:8090/image/"+res.data.data.avatar
             })
         },
         getFileUrl(file) {
@@ -67,7 +67,6 @@ export default {
             return url
         },
         changeMultipleFiles(e) {
-           window.console.log(e)
            this.avatar = e.target.files[0]
            this.avatarShow=this.getFileUrl(this.avatar)
             
@@ -114,16 +113,16 @@ export default {
           uploadForm.append('introduction',this.introduction)
           this.$api.saveUserInfo(
               uploadForm
-          ).then(()=>{
-              this.$store.commit('storeIdAndNumberAndAvatar',{
-                    avatar:this.avatar
-                })
+          ).then((res)=>{
+              this.$store.commit('storeAvatar',{
+                  avatar:res.data.data
+              })
+              window.console.log(this.$store.state)
               this.$message({
                 showClose: true,
                 message: '更新资料成功',
                 type: 'success'
               });
-              this.$router.go(0)
           })
       },
     },

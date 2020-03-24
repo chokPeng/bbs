@@ -44,7 +44,6 @@ export default {
         }
     },
     mounted(){
-        window.console.log(this.$route.params.keyword)
         this.keyword=this.$route.params.keyword
         this.search(this.keyword)
     },
@@ -62,7 +61,6 @@ export default {
                 });
                 return ;
             }
-            window.console.log(keyword)
             this.$api.search({
                 keyword:keyword
             }).then((res)=>{

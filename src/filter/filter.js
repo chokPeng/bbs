@@ -11,12 +11,8 @@ const filters={
         })
     },
     addImagePrefix:function(image){
-        // return "http://www.robben.fun:8090/image/"+image;
+        //return "http://www.robben.fun:8090/image/"+image;
         return "http://localhost:8090/image/"+image;
-    },
-    getUserAvatarById:function(userId){
-        //return "http://www.robben.fun:8090/image/"+userId+".jpg"
-        return "http://localhost:8090/image/"+userId+".jpg"
     },
     changePlaceholder:function(placeholder){
         window.console.log("placeholder:")

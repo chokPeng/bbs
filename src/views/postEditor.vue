@@ -70,7 +70,6 @@ export default {
     methods: {
         getPostTopic(){
             this.$api.getPostTopic().then((res)=>{
-                window.console.log(res.data)
                 this.topicOptions=res.data.data
             })
         },
@@ -105,7 +104,6 @@ export default {
               topic:this.topic,
               content:this.content
           }).then((res)=>{
-              window.console.log(res.data)
               this.$message({
                 showClose: true,
                 message: '发表帖子成功',
@@ -113,8 +111,7 @@ export default {
               });
              var postId=res.data.data
               this.$router.push({name:'post',params:{id:postId}})
-          }).catch((res)=>{
-              window.console.log(res)
+          }).catch(()=>{
               this.$message({
               showClose: true,
               message: '发表失败',

@@ -51,7 +51,6 @@ export default {
     },
     methods:{
         isFollowing(){
-            window.console.log("jsss")
             for(var i=0,length=this.$store.state.followingList.length;i<length;i++){
                 if(this.$store.state.followingList[i].userId==this.user.userId){
                     return true

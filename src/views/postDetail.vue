@@ -130,7 +130,6 @@ export default {
         /*以上为comment.vue 的方法*/
         getPost(id){
                 this.$api.getPost(id).then((res)=>{
-                    window.console.log(res.data)
                     this.post=res.data.data
                     this.isUserLike()
                     this.isCollected()
@@ -208,6 +207,7 @@ export default {
         border:1px solid cornsilk;
         width: 800px;
         background: #fff;
+        height:100%;
     }
     .main-area{
       
@@ -275,11 +275,10 @@ export default {
     .delete-button{
         margin: 0 0 0 auto;
         padding: 0;
-        width: 80px;
+        width: 40px;
         height: 26px;
-        font-size: 13px;
-        border-color: #6cbd45;
-        color: #6cbd45;
+        font-size: 5px;
+        color: #76839b;
         position: absolute;
         right:5px;
         cursor:pointer;

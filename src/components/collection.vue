@@ -29,9 +29,6 @@ export default {
     },
     mounted(){
         this.getCollectionList(this.$route.params.userId)
-        // this.collectionList=this.$store.state.collectionList
-        // window.console.log(this.collectionList)
-        // this.postList=this.$store.state.collectionList
     },
     methods:{
         getCollectionList(userId){

@@ -27,7 +27,6 @@ export default {
       swiperSlide  
   },
   mounted(){
-      window.console.log(this.imageList)
       //可以使用swiper这个对象去使用swiper官网中的那些方法  
     //  window.console.log('this is current swiper instance object', this.swiper);
       // this.swiper.slideTo(0, 0, false);

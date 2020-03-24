@@ -197,13 +197,13 @@ export default {
     .delete-button{
         margin: 0 0 0 auto;
         padding: 0;
-        width: 80px;
+        width: 40px;
         height: 26px;
-        font-size: 13px;
-        border-color: #6cbd45;
-        color: #6cbd45;
+        font-size: 5px;
+        color: #76839b;
         position: absolute;
-        right:20px;
+        right:5px;
+        cursor:pointer;
     }
     .content{
         padding: 20px;
