@@ -13,7 +13,7 @@
         <div class="main-area">
             <div class="header">
                 <userInfoBox :user="square.poster"></userInfoBox>
-                <div v-if="square.poster.userId==$store.state.userId">
+                <div v-if="square.poster.userId==$store.state.userId||this.$store.state.role=='admin'">
                     <button @click="deleteSquare" class="delete-button">删除</button>
                 </div>
             </div>
@@ -172,7 +172,7 @@ export default {
         border:1px solid cornsilk;
         width: 800px;
         background: #fff;
-        height: 100%;
+        /* height: 100%; */
     }
     .main-area{
         width: 700px;

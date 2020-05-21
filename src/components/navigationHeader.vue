@@ -38,15 +38,24 @@
                 </div>
             </el-col>
             <el-col :span="2" class="el-col">
-                <div>
+                <!-- <div>
                     <img :src="avatar|addImagePrefix" v-if="avatar" @click="showUserDropDownList()" style="width:30px;height:30px;border-radius:50%;cursor:pointer">
-                </div>
-                <ul v-if="isShowUserDropDownList" class="user-drop-down-list">
+                </div> -->
+                <!-- <ul v-if="isShowUserDropDownList" class="user-drop-down-list">
                     <router-link :to="'/user/'+userId+'/active'"><li>我的主页</li></router-link>
                     <router-link :to="'/postEditor'"><li>发帖子</li></router-link>
                     <router-link :to="'/login'"><li>登录</li></router-link>
                     <li @click="signout">登出</li>
-                </ul>
+                </ul> -->
+                <el-dropdown>
+                    <img :src="avatar|addImagePrefix" v-if="avatar" @click="showUserDropDownList()" style="width:30px;height:30px;border-radius:50%;cursor:pointer">
+                    <!-- <el-avatar :src="avatar|addImagePrefix" :size="50" ></el-avatar> -->
+                    <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item><router-link :to="'/user/'+userId+'/active'"><li>我的主页</li></router-link></el-dropdown-item>
+                    <el-dropdown-item><router-link :to="'/postEditor'"><li>发帖子</li></router-link></el-dropdown-item>
+                    <el-dropdown-item>退出系统</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
                 <div v-if="allMessageList!=''" class="chat">
                     <el-dialog :visible.sync="dialogVisible" append-to-body>
                         <chatBox :oppositeUser="oppositeUser"></chatBox>

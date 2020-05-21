@@ -110,6 +110,7 @@ export default {
         }
     }),
     signin:(data)=>axios.post(`login`,qs.stringify(data)),
+    getUserRole:(data)=>axios.get(`/user/userRole/${data}`),
     savePost:(data)=>axios.post(`/post`,qs.stringify(data)),
     getActive:(data)=>axios.get(`/active/${data}`),
     getTopic:(data)=>axios.get(`/topic/${data}`),

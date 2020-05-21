@@ -6,6 +6,7 @@ const state={
     userId:'',
     avatar:'',
     userNumber:'',
+    role:'',
     followingList:[],
     squareLikeList:[],
     collectionList:[]
@@ -27,6 +28,9 @@ const mutations={
     },
     storeCollectionList(state,payload){
         state.collectionList=payload.collectionList
+    },
+    storeUserRole(state,payload){
+        state.role=payload.role
     }
 }
 export default new Vuex.Store({

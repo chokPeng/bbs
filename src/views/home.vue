@@ -69,10 +69,11 @@ export default {
         'navigationHeader':NavigationHeader
     },
     mounted(){
-        this.getAllPosts()
-        this.getFollowingList()
-        this.getUserSquareLikeList()
-        this.getCollectedPostIdListList()
+        this.getAllPosts(),
+        this.getFollowingList(),
+        this.getUserSquareLikeList(),
+        this.getCollectedPostIdListList(),
+        this.getUserRole()
     },
     methods: {
         getAllPosts(){
@@ -84,10 +85,18 @@ export default {
                 }
             })
         },
+        getUserRole(){
+            this.$api.getUserRole(this.$store.state.userId).then((res)=>{
+                //window.console.log(res.data.data)
+                this.$store.commit('storeUserRole',{
+                    role:res.data.data
+                })
+            })
+        },
         getFollowingList(){
-            window.console.log("ssss:")
-            window.console.log(this.$store.state)
-            window.console.log(this.$store.state.userId)
+            // window.console.log("ssss:")
+            // window.console.log(this.$store.state)
+            // window.console.log(this.$store.state.userId)
             this.$api.getFollowees(this.$store.state.userId).then((res)=>{
                  this.$store.commit('storeFollowingList',{
                     followingList:res.data.data

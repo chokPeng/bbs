@@ -6,13 +6,14 @@
             <div @click="like">
                 <img :src="likeImg" style="width:50px;height:50px;cursor:pointer;"><span>{{likeNum}}</span>
             </div>
-            <div><img :src="commentImg" style="width:50px;height:50px;cursor:pointer;"><span v-if="post.comment.length!=0">{{post.comment.length}}</span></div>
+            <div><img :src="commentImg" style="width:50px;height:50px;cursor:pointer;">
+                <span v-if="post.comment.length!=0">{{post.comment.length}}</span></div>
             <div @click="saveCollection"><img :src="collectImg" style="width:50px;height:50px;cursor:pointer;"></div>
         </div>
         <div class="main-area">
             <div class="header">
                 <userInfoBox :user="post.poster"></userInfoBox>
-                <button @click="deletePost" v-if="post.poster.userId==$store.state.userId" class="delete-button">删除</button>
+                <button @click="deletePost" v-if="post.poster.userId==$store.state.userId||this.$store.state.role=='admin'" class="delete-button">删除</button>
             </div>
             <div class="post-title">
                 <span>{{post.title}}</span>
@@ -53,6 +54,7 @@ export default {
             input:'',
             commentInput:'',
             commentReplyInput:'',
+            collected:false,
         }
     },
     mounted(){
@@ -84,10 +86,10 @@ export default {
             for(let i=0,length=this.$store.state.collectionList.length;i<length;i++){
                 if(this.post.id==this.$store.state.collectionList[i]){
                     this.collectImg=require('../assets/collectFilled.png')
+                    this.collected=true
                     break;
                 }
             }
-            
         },
         deletePost(){
             this.$api.deletePost({
@@ -170,12 +172,14 @@ export default {
             })
         },
         saveCollection(){
-            if(!this.isCollect==true){
+            window.console.log(this.collected)
+            if(!this.collected==true){
                 this.$api.saveCollection({
                     postId:this.post.id,
                     collectorId:this.$store.state.userId
                 }).then(()=>{
                     this.collectImg=require('../assets/collectFilled.png'),
+                    this.collected=!this.collected
                     this.$message({
                         showClose: true,
                         message: '收藏成功',
@@ -188,6 +192,7 @@ export default {
                     collectorId:this.$store.state.userId
                 }).then(()=>{
                     this.collectImg=require('../assets/collect.png'),
+                    this.collected=!this.collected
                     this.$message({
                         showClose: true,
                         message: '取消收藏成功',
@@ -207,7 +212,7 @@ export default {
         border:1px solid cornsilk;
         width: 800px;
         background: #fff;
-        height:100%;
+        /* height:100%; */
     }
     .main-area{
       
